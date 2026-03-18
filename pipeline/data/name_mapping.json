@@ -44,5 +44,13 @@
   "ketose-C6-RRS": {"id": "L-FRU", "name": "L-Fructose", "aliases": []},
   "ketose-C6-SRS": {"id": "L-SOR", "name": "L-Sorbose", "aliases": []},
   "ketose-C6-SSS": {"id": "L-TAG", "name": "L-Tagatose", "aliases": []},
-  "ketose-C6-RSS": {"id": "L-PSI", "name": "L-Psicose", "aliases": ["L-Allulose"]}
+  "ketose-C6-RSS": {"id": "L-PSI", "name": "L-Psicose", "aliases": ["L-Allulose"]},
+  "polyol-C3-ACHIRAL": {"id": "GLYCEROL", "name": "Glycerol", "aliases": ["Glycerin"]},
+  "polyol-C4-RR": {"id": "D-ERYTHRITOL", "name": "Erythritol", "aliases": []},
+  "polyol-C5-RSR": {"id": "XYLITOL", "name": "Xylitol", "aliases": []},
+  "polyol-C5-RRR": {"id": "D-RIBITOL", "name": "Ribitol", "aliases": ["Adonitol"]},
+  "polyol-C5-SRR": {"id": "D-ARABITOL", "name": "D-Arabitol", "aliases": []},
+  "polyol-C6-RSSR": {"id": "D-SORBITOL", "name": "Sorbitol", "aliases": ["D-Glucitol"]},
+  "polyol-C6-SSSR": {"id": "D-MANNITOL", "name": "D-Mannitol", "aliases": []},
+  "polyol-C6-RSRR": {"id": "GALACTITOL", "name": "Galactitol", "aliases": ["Dulcitol"]}
 }
