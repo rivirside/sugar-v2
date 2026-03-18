@@ -1,14 +1,16 @@
 "use client";
 
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { compounds, reactions, compoundMap, reactionMap } from "@/lib/data";
 import { EvidenceBadge } from "@/components/evidence-badge";
+import { EvidenceFilter } from "@/components/evidence-filter";
 import {
   COMPOUND_TYPE_COLORS,
   EVIDENCE_DOT_COLORS,
   formatYield,
 } from "@/lib/utils";
+import { useEvidenceFilter } from "@/lib/evidence-filter";
 import type { CompoundType, EvidenceTier } from "@/lib/types";
 import type cytoscape from "cytoscape";
 import Link from "next/link";
@@ -62,7 +64,7 @@ interface InfoPanelData {
   id: string;
 }
 
-export default function NetworkPage() {
+function NetworkContent() {
   const [enabledTypes, setEnabledTypes] = useState<Set<CompoundType>>(
     new Set(COMPOUND_TYPES)
   );
@@ -71,6 +73,7 @@ export default function NetworkPage() {
     null
   );
   const cyRef = useRef<cytoscape.Core | null>(null);
+  const { activeTiers } = useEvidenceFilter();
 
   function toggleType(type: CompoundType) {
     setEnabledTypes((prev) => {
@@ -106,7 +109,8 @@ export default function NetworkPage() {
           r.substrates.length === 1 &&
           r.products.length === 1 &&
           compoundIds.has(r.substrates[0]) &&
-          compoundIds.has(r.products[0])
+          compoundIds.has(r.products[0]) &&
+          activeTiers.includes(r.evidence_tier)
       )
       .map((r) => ({
         data: {
@@ -119,7 +123,7 @@ export default function NetworkPage() {
       }));
 
     return [...nodes, ...edges];
-  }, [enabledTypes, carbonRange]);
+  }, [enabledTypes, carbonRange, activeTiers]);
 
   const stylesheet: cytoscape.StylesheetStyle[] = useMemo(
     () => [
@@ -368,10 +372,18 @@ export default function NetworkPage() {
             </p>
           </div>
 
+          {/* Evidence tier filter */}
+          <div className="space-y-2">
+            <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+              Evidence Tier
+            </h3>
+            <EvidenceFilter />
+          </div>
+
           {/* Legend */}
           <div className="space-y-2">
             <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-              Edge Legend
+              Edge Colors
             </h3>
             {(
               ["validated", "predicted", "inferred", "hypothetical"] as const
@@ -415,5 +427,13 @@ export default function NetworkPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function NetworkPage() {
+  return (
+    <Suspense>
+      <NetworkContent />
+    </Suspense>
   );
 }

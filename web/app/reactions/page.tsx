@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { reactions, compoundMap } from "@/lib/data";
 import { EvidenceBadge } from "@/components/evidence-badge";
+import { EvidenceFilter } from "@/components/evidence-filter";
 import { formatYield } from "@/lib/utils";
-import type { ReactionType, EvidenceTier } from "@/lib/types";
+import { useEvidenceFilter } from "@/lib/evidence-filter";
+import type { ReactionType } from "@/lib/types";
 import {
   Table,
   TableHeader,
@@ -33,20 +35,11 @@ const ALL_REACTION_TYPES: ReactionType[] = [
   "multi_epimerization",
 ];
 
-const EVIDENCE_TIERS: EvidenceTier[] = [
-  "validated",
-  "predicted",
-  "inferred",
-  "hypothetical",
-];
-
-export default function ReactionBrowserPage() {
+function ReactionBrowserContent() {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<Set<ReactionType>>(new Set());
-  const [evidenceFilter, setEvidenceFilter] = useState<Set<EvidenceTier>>(
-    new Set()
-  );
+  const { activeTiers } = useEvidenceFilter();
 
   const filtered = useMemo(() => {
     return reactions.filter((r) => {
@@ -73,28 +66,18 @@ export default function ReactionBrowserPage() {
       // Type filter
       if (typeFilter.size > 0 && !typeFilter.has(r.reaction_type)) return false;
 
-      // Evidence filter
-      if (evidenceFilter.size > 0 && !evidenceFilter.has(r.evidence_tier))
-        return false;
+      // Evidence filter (from shared URL param hook)
+      if (!activeTiers.includes(r.evidence_tier)) return false;
 
       return true;
     });
-  }, [query, typeFilter, evidenceFilter]);
+  }, [query, typeFilter, activeTiers]);
 
   function toggleType(type: ReactionType) {
     setTypeFilter((prev) => {
       const next = new Set(prev);
       if (next.has(type)) next.delete(type);
       else next.add(type);
-      return next;
-    });
-  }
-
-  function toggleEvidence(tier: EvidenceTier) {
-    setEvidenceFilter((prev) => {
-      const next = new Set(prev);
-      if (next.has(tier)) next.delete(tier);
-      else next.add(tier);
       return next;
     });
   }
@@ -139,23 +122,8 @@ export default function ReactionBrowserPage() {
               ))}
             </div>
 
-            {/* Evidence filter */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-zinc-500">Evidence:</span>
-              {EVIDENCE_TIERS.map((tier) => (
-                <button
-                  key={tier}
-                  onClick={() => toggleEvidence(tier)}
-                  className={`rounded-full border px-2 py-0.5 text-xs capitalize transition-colors ${
-                    evidenceFilter.has(tier)
-                      ? "border-zinc-600 bg-zinc-800 text-zinc-200"
-                      : "border-zinc-800 text-zinc-500 hover:text-zinc-300"
-                  }`}
-                >
-                  {tier}
-                </button>
-              ))}
-            </div>
+            {/* Evidence filter (shared URL param) */}
+            <EvidenceFilter />
           </div>
         </div>
 
@@ -214,5 +182,13 @@ export default function ReactionBrowserPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ReactionBrowserPage() {
+  return (
+    <Suspense>
+      <ReactionBrowserContent />
+    </Suspense>
   );
 }

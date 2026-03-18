@@ -5,18 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { CompoundSearch } from "@/components/compound-search";
 import { PathwayList } from "@/components/pathway-list";
 import { PathwayDetail } from "@/components/pathway-detail";
+import { EvidenceFilter } from "@/components/evidence-filter";
 import { reactions, compoundMap, reactionMap } from "@/lib/data";
 import { buildGraph } from "@/lib/graph";
 import { findKShortestPaths, type PathResult } from "@/lib/pathfinding";
-import type { Compound, EvidenceTier } from "@/lib/types";
+import { useEvidenceFilter } from "@/lib/evidence-filter";
+import type { Compound } from "@/lib/types";
 import { ArrowRight, Loader2 } from "lucide-react";
-
-const EVIDENCE_TIERS: EvidenceTier[] = [
-  "validated",
-  "predicted",
-  "inferred",
-  "hypothetical",
-];
 
 function PathwayFinderContent() {
   const router = useRouter();
@@ -33,9 +28,7 @@ function PathwayFinderContent() {
   );
 
   const [maxSteps, setMaxSteps] = useState(6);
-  const [enabledTiers, setEnabledTiers] = useState<Set<EvidenceTier>>(
-    new Set(EVIDENCE_TIERS)
-  );
+  const { activeTiers } = useEvidenceFilter();
   const [pathways, setPathways] = useState<PathResult[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -55,11 +48,11 @@ function PathwayFinderContent() {
           timeoutMs: 5000,
         });
 
-        // Filter by evidence tiers
+        // Filter by evidence tiers (from shared URL param)
         const filtered = results.filter((p) => {
           return p.reactionIds.every((rId) => {
             const r = reactionMap.get(rId);
-            return r ? enabledTiers.has(r.evidence_tier) : false;
+            return r ? activeTiers.includes(r.evidence_tier) : false;
           });
         });
 
@@ -68,7 +61,7 @@ function PathwayFinderContent() {
         setLoading(false);
       }, 0);
     },
-    [graph, maxSteps, enabledTiers]
+    [graph, maxSteps, activeTiers]
   );
 
   // Run search when URL params change
@@ -83,18 +76,6 @@ function PathwayFinderContent() {
   function handleFind() {
     if (!source || !target) return;
     router.push(`/pathways?source=${source.id}&target=${target.id}`);
-  }
-
-  function toggleTier(tier: EvidenceTier) {
-    setEnabledTiers((prev) => {
-      const next = new Set(prev);
-      if (next.has(tier)) {
-        next.delete(tier);
-      } else {
-        next.add(tier);
-      }
-      return next;
-    });
   }
 
   return (
@@ -149,23 +130,7 @@ function PathwayFinderContent() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-zinc-500">Evidence:</span>
-            {EVIDENCE_TIERS.map((tier) => (
-              <label
-                key={tier}
-                className="flex items-center gap-1 text-xs text-zinc-400"
-              >
-                <input
-                  type="checkbox"
-                  checked={enabledTiers.has(tier)}
-                  onChange={() => toggleTier(tier)}
-                  className="h-3 w-3 accent-zinc-400"
-                />
-                <span className="capitalize">{tier}</span>
-              </label>
-            ))}
-          </div>
+          <EvidenceFilter />
         </div>
       </div>
 
