@@ -12,19 +12,31 @@ EVIDENCE_PENALTY = {
     "hypothetical": 0.8,
 }
 
+# Default yield when not explicitly specified, scaled by evidence tier.
+# Well-validated reactions are assumed to have high/perfect yield;
+# hypothetical reactions default to uncertain (50%) yield.
+DEFAULT_YIELD_BY_TIER = {
+    "validated": 1.0,
+    "predicted": 0.8,
+    "inferred": 0.6,
+    "hypothetical": 0.5,
+}
+
 
 def compute_cost_score(reaction: dict) -> float:
     """Compute the weighted cost score for a reaction.
 
     cost_score = w1*(1-yield) + w2*cofactor_burden + w3*evidence_penalty + w4*step_penalty
-    Null yield is treated as 0.5 (unknown).
+    Null yield defaults to a tier-dependent estimate:
+      validated=1.0, predicted=0.8, inferred=0.6, hypothetical=0.5
     """
+    evidence = reaction.get("evidence_tier", "hypothetical")
+
     rxn_yield = reaction.get("yield")
     if rxn_yield is None:
-        rxn_yield = 0.5
+        rxn_yield = DEFAULT_YIELD_BY_TIER.get(evidence, 0.5)
 
     cofactor_burden = reaction.get("cofactor_burden", 0.0)
-    evidence = reaction.get("evidence_tier", "hypothetical")
     evidence_pen = EVIDENCE_PENALTY.get(evidence, 0.8)
 
     return (

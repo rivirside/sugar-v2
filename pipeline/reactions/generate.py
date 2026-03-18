@@ -111,28 +111,32 @@ def generate_isomerizations(compounds: list[dict]) -> list[dict]:
 def generate_reductions(compounds: list[dict], polyols: list[dict]) -> list[dict]:
     """Generate reduction reactions from monosaccharides to polyols.
 
-    Each polyol records its parent_monosaccharide and metadata.reduction_parents.
+    Each polyol records ALL parent monosaccharides in metadata.reduction_parents.
+    A separate reduction reaction is generated for each (parent, polyol) pair.
     Reduction is irreversible and requires NADH (cofactor_burden = 1.0).
-
-    This is a skeleton implementation; full testing requires polyols (Task 6).
     """
     reactions = []
 
     compound_map = {c["id"]: c for c in compounds}
 
     for polyol in polyols:
-        parent_id = polyol.get("parent_monosaccharide")
-        if parent_id is None:
-            continue
-        parent = compound_map.get(parent_id)
-        if parent is None:
-            continue
+        # Generate one reaction per parent monosaccharide
+        all_parents = polyol.get("metadata", {}).get("reduction_parents", [])
+        if not all_parents:
+            # Fall back to primary parent
+            primary = polyol.get("parent_monosaccharide")
+            all_parents = [primary] if primary else []
 
-        rxn_id = _reaction_id("reduction", parent["carbons"], parent_id, polyol["id"])
-        rxn = _base_reaction(rxn_id, parent_id, polyol["id"], "reduction")
-        # Reduction requires NADH
-        rxn["cofactor_burden"] = 1.0
-        rxn["cost_score"] = compute_cost_score(rxn)
-        reactions.append(rxn)
+        for parent_id in all_parents:
+            parent = compound_map.get(parent_id)
+            if parent is None:
+                continue
+
+            rxn_id = _reaction_id("reduction", parent["carbons"], parent_id, polyol["id"])
+            rxn = _base_reaction(rxn_id, parent_id, polyol["id"], "reduction")
+            # Reduction requires NADH
+            rxn["cofactor_burden"] = 1.0
+            rxn["cost_score"] = compute_cost_score(rxn)
+            reactions.append(rxn)
 
     return reactions
