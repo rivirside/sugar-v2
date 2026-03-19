@@ -90,6 +90,11 @@ def enumerate_aldoses(carbons: int) -> list[dict]:
             "commercial": False,
             "cost_usd_per_kg": None,
             "metadata": {},
+            "chebi_id": None,
+            "kegg_id": None,
+            "pubchem_id": None,
+            "inchi": None,
+            "smiles": None,
         }]
 
     compounds = []
@@ -112,6 +117,11 @@ def enumerate_aldoses(carbons: int) -> list[dict]:
             "commercial": False,
             "cost_usd_per_kg": None,
             "metadata": {},
+            "chebi_id": None,
+            "kegg_id": None,
+            "pubchem_id": None,
+            "inchi": None,
+            "smiles": None,
         })
 
     return compounds
@@ -145,6 +155,11 @@ def enumerate_ketoses(carbons: int) -> list[dict]:
             "commercial": False,
             "cost_usd_per_kg": None,
             "metadata": {},
+            "chebi_id": None,
+            "kegg_id": None,
+            "pubchem_id": None,
+            "inchi": None,
+            "smiles": None,
         }]
 
     compounds = []
@@ -167,6 +182,11 @@ def enumerate_ketoses(carbons: int) -> list[dict]:
             "commercial": False,
             "cost_usd_per_kg": None,
             "metadata": {},
+            "chebi_id": None,
+            "kegg_id": None,
+            "pubchem_id": None,
+            "inchi": None,
+            "smiles": None,
         })
 
     return compounds

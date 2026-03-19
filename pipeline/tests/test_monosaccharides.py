@@ -1,4 +1,4 @@
-from pipeline.enumerate.monosaccharides import enumerate_aldoses, enumerate_ketoses
+from pipeline.enumerate.monosaccharides import enumerate_aldoses, enumerate_ketoses, enumerate_all_monosaccharides
 
 
 def test_c3_aldoses_count():
@@ -143,3 +143,19 @@ def test_unnamed_compound_gets_systematic_id():
     result = enumerate_aldoses(7)
     systematic = [c for c in result if c["id"].startswith("ALDO-")]
     assert len(systematic) > 0
+
+
+def test_compounds_have_external_id_fields():
+    """All compounds must have chebi_id, kegg_id, pubchem_id, inchi, smiles initialized to None."""
+    compounds = enumerate_all_monosaccharides()
+    for c in compounds:
+        assert "chebi_id" in c, f"{c['id']} missing chebi_id"
+        assert "kegg_id" in c, f"{c['id']} missing kegg_id"
+        assert "pubchem_id" in c, f"{c['id']} missing pubchem_id"
+        assert "inchi" in c, f"{c['id']} missing inchi"
+        assert "smiles" in c, f"{c['id']} missing smiles"
+        assert c["chebi_id"] is None
+        assert c["kegg_id"] is None
+        assert c["pubchem_id"] is None
+        assert c["inchi"] is None
+        assert c["smiles"] is None

@@ -168,6 +168,11 @@ def generate_polyols(compounds: list[dict]) -> list[dict]:
                 "reduction_parents": parents,
                 "canonical_config": display_canonical,
             },
+            "chebi_id": None,
+            "kegg_id": None,
+            "pubchem_id": None,
+            "inchi": None,
+            "smiles": None,
         }
         polyols.append(polyol)
 
