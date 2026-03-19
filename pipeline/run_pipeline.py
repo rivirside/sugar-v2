@@ -1,5 +1,6 @@
 """Pipeline orchestrator: enumerate, validate, generate reactions, and write output."""
 
+import argparse
 import json
 import os
 import sys
@@ -24,8 +25,13 @@ def _abort(message: str) -> None:
     sys.exit(1)
 
 
-def run_pipeline() -> dict:
+def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> dict:
     """Execute the full SUGAR v2 Ring 1 pipeline.
+
+    Args:
+        skip_import: If True, skip Ring 2 database import steps.
+        refresh: Set of source names to force-refresh cached data for
+            (e.g. {"chebi", "kegg", "rhea", "brenda"}). None means use cache.
 
     Steps:
     1. Enumerate monosaccharides (94 compounds, C2-C7)
@@ -108,6 +114,10 @@ def run_pipeline() -> dict:
         _abort(f"Reaction ID uniqueness check failed: {len(duplicate_ids)} duplicate(s)")
     print("  -> Reaction ID uniqueness check passed")
 
+    if not skip_import:
+        print("\n=== Ring 2: Database Enrichment ===")
+        print("  [SKIP] Import not yet implemented")
+
     # Write output files
     print("\n=== Writing output files ===")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -155,4 +165,26 @@ def run_pipeline() -> dict:
 
 
 if __name__ == "__main__":
-    run_pipeline()
+    parser = argparse.ArgumentParser(description="SUGAR pipeline")
+    parser.add_argument("--skip-import", action="store_true", help="Skip database import (Ring 1 only)")
+    parser.add_argument("--refresh", action="store_true", help="Force refresh all cached data")
+    parser.add_argument("--refresh-chebi", action="store_true", help="Refresh ChEBI cache")
+    parser.add_argument("--refresh-kegg", action="store_true", help="Refresh KEGG cache")
+    parser.add_argument("--refresh-rhea", action="store_true", help="Refresh RHEA cache")
+    parser.add_argument("--refresh-brenda", action="store_true", help="Refresh BRENDA cache")
+    args = parser.parse_args()
+
+    refresh_sources = set()
+    if args.refresh:
+        refresh_sources = {"chebi", "kegg", "rhea", "brenda"}
+    else:
+        if args.refresh_chebi:
+            refresh_sources.add("chebi")
+        if args.refresh_kegg:
+            refresh_sources.add("kegg")
+        if args.refresh_rhea:
+            refresh_sources.add("rhea")
+        if args.refresh_brenda:
+            refresh_sources.add("brenda")
+
+    run_pipeline(skip_import=args.skip_import, refresh=refresh_sources or None)
