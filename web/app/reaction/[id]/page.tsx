@@ -181,19 +181,81 @@ export default async function ReactionDetailPage({
           )}
         </div>
 
-        {/* Ring 2 placeholders */}
-        <div className="mt-8 rounded-lg border border-dashed border-zinc-800 bg-zinc-950 p-4">
-          <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-600">
-            Available in Ring 2
-          </h3>
-          <div className="mt-3 flex flex-wrap gap-4 text-xs text-zinc-600">
-            <span>PMID references</span>
-            <span>RHEA cross-references</span>
-            <span>Kinetics data (Km, kcat)</span>
-            <span>Thermodynamics (delta G)</span>
-            <span>Organism annotations</span>
+        {/* Database references */}
+        {(reaction.ec_number || reaction.rhea_id || (reaction.pmid && reaction.pmid.length > 0) || (reaction.organism && reaction.organism.length > 0)) && (
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-4">
+              <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                Enzyme Information
+              </h3>
+              <dl className="mt-3 space-y-2 text-sm">
+                {reaction.ec_number && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">EC Number</dt>
+                    <dd>
+                      <a href={`https://enzyme.expasy.org/EC/${reaction.ec_number}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">{reaction.ec_number}</a>
+                    </dd>
+                  </div>
+                )}
+                {reaction.enzyme_name && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">Enzyme</dt>
+                    <dd className="text-zinc-200">{reaction.enzyme_name}</dd>
+                  </div>
+                )}
+                {reaction.rhea_id && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">RHEA</dt>
+                    <dd>
+                      <a href={`https://www.rhea-db.org/rhea/${reaction.rhea_id.replace("RHEA:", "")}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">{reaction.rhea_id}</a>
+                    </dd>
+                  </div>
+                )}
+                {reaction.km_mm != null && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">Km</dt>
+                    <dd className="text-zinc-200">{reaction.km_mm} mM</dd>
+                  </div>
+                )}
+                {reaction.kcat_sec != null && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">kcat</dt>
+                    <dd className="text-zinc-200">{reaction.kcat_sec} s&#x207b;&#xb9;</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+            <div className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-4">
+              <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                Literature & Organisms
+              </h3>
+              {reaction.pmid && reaction.pmid.length > 0 ? (
+                <div className="mt-3 space-y-1">
+                  <p className="text-xs text-zinc-500">References</p>
+                  <div className="flex flex-wrap gap-2">
+                    {reaction.pmid.map((pmid) => (
+                      <a key={pmid} href={`https://pubmed.ncbi.nlm.nih.gov/${pmid}`} target="_blank" rel="noopener noreferrer" className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-blue-400 hover:text-blue-300">
+                        PMID:{pmid}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="mt-3 text-sm text-zinc-500">No literature references</p>
+              )}
+              {reaction.organism && reaction.organism.length > 0 && (
+                <div className="mt-3 space-y-1">
+                  <p className="text-xs text-zinc-500">Organisms</p>
+                  <div className="flex flex-wrap gap-2">
+                    {reaction.organism.map((org, i) => (
+                      <span key={i} className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs italic text-zinc-300">{org}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -20,3 +20,10 @@ export function getReactionsForCompound(compoundId: string): Reaction[] {
       r.substrates.includes(compoundId) || r.products.includes(compoundId)
   );
 }
+
+export function getEnrichmentStats() {
+  const chebiMatched = compounds.filter((c) => c.chebi_id).length;
+  const validatedReactions = reactions.filter((r) => r.evidence_tier === "validated").length;
+  const predictedReactions = reactions.filter((r) => r.evidence_tier === "predicted").length;
+  return { chebiMatched, validatedReactions, predictedReactions };
+}

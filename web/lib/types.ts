@@ -41,6 +41,11 @@ export interface Compound {
   commercial: boolean;
   cost_usd_per_kg: number | null;
   metadata: Record<string, unknown>;
+  chebi_id: string | null;
+  kegg_id: string | null;
+  pubchem_id: string | null;
+  inchi: string | null;
+  smiles: string | null;
 }
 
 export interface Reaction {

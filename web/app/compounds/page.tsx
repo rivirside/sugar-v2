@@ -38,6 +38,7 @@ export default function CompoundBrowserPage() {
     new Set()
   );
   const [carbonRange, setCarbonRange] = useState<[number, number]>([2, 12]);
+  const [hasExternalId, setHasExternalId] = useState(false);
 
   const filtered = useMemo(() => {
     return compounds.filter((c) => {
@@ -63,9 +64,11 @@ export default function CompoundBrowserPage() {
       if (c.carbons < carbonRange[0] || c.carbons > carbonRange[1])
         return false;
 
+      if (hasExternalId && !c.chebi_id && !c.kegg_id) return false;
+
       return true;
     });
-  }, [query, typeFilter, chiralityFilter, carbonRange]);
+  }, [query, typeFilter, chiralityFilter, carbonRange, hasExternalId]);
 
   function toggleType(type: CompoundType) {
     setTypeFilter((prev) => {
@@ -175,6 +178,15 @@ export default function CompoundBrowserPage() {
                 }
                 className="h-1.5 w-16 accent-zinc-400"
               />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setHasExternalId(!hasExternalId)}
+                className={`rounded-full border px-2 py-0.5 text-xs transition-colors ${hasExternalId ? "border-zinc-600 bg-zinc-800 text-zinc-200" : "border-zinc-800 text-zinc-500 hover:text-zinc-300"}`}
+              >
+                Has external ID
+              </button>
             </div>
           </div>
         </div>

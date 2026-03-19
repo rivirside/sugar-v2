@@ -121,6 +121,70 @@ export default async function CompoundDetailPage({
               </p>
             )}
           </div>
+
+          {/* External IDs */}
+          {(compound.chebi_id || compound.kegg_id || compound.pubchem_id) && (
+            <div className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-4 sm:col-span-2">
+              <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                External IDs
+              </h3>
+              <dl className="mt-3 space-y-2 text-sm">
+                {compound.chebi_id && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">ChEBI</dt>
+                    <dd>
+                      <a href={`https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${compound.chebi_id}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
+                        {compound.chebi_id}
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {compound.kegg_id && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">KEGG</dt>
+                    <dd>
+                      <a href={`https://www.genome.jp/entry/${compound.kegg_id}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
+                        {compound.kegg_id}
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {compound.pubchem_id && (
+                  <div className="flex justify-between">
+                    <dt className="text-zinc-500">PubChem</dt>
+                    <dd>
+                      <a href={`https://pubchem.ncbi.nlm.nih.gov/compound/${compound.pubchem_id}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
+                        {compound.pubchem_id}
+                      </a>
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          )}
+
+          {/* Structural identifiers */}
+          {(compound.inchi || compound.smiles) && (
+            <div className="rounded-lg border border-zinc-800 bg-zinc-900/60 p-4 sm:col-span-2">
+              <h3 className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                Structural Identifiers
+              </h3>
+              <dl className="mt-3 space-y-3 text-sm">
+                {compound.inchi && (
+                  <div>
+                    <dt className="text-zinc-500">InChI</dt>
+                    <dd className="mt-1 break-all font-mono text-xs text-zinc-300">{compound.inchi}</dd>
+                  </div>
+                )}
+                {compound.smiles && (
+                  <div>
+                    <dt className="text-zinc-500">SMILES</dt>
+                    <dd className="mt-1 break-all font-mono text-xs text-zinc-300">{compound.smiles}</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          )}
         </div>
 
         {/* Quick action */}

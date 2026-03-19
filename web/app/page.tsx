@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompoundSearch } from "@/components/compound-search";
 import { StatCard } from "@/components/stat-card";
-import { metadata as pipelineMetadata } from "@/lib/data";
+import { metadata as pipelineMetadata, getEnrichmentStats } from "@/lib/data";
 import type { Compound } from "@/lib/types";
 import { ArrowRight } from "lucide-react";
 
@@ -117,6 +117,17 @@ export default function DashboardPage() {
           color="text-indigo-400"
         />
       </div>
+      {(() => {
+        const enrichment = getEnrichmentStats();
+        if (enrichment.chebiMatched === 0) return null;
+        return (
+          <div className="mt-4 grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3">
+            <StatCard label="ChEBI Matched" value={enrichment.chebiMatched} href="/compounds" color="text-green-400" />
+            <StatCard label="Validated" value={enrichment.validatedReactions} href="/reactions" color="text-emerald-400" />
+            <StatCard label="Predicted" value={enrichment.predictedReactions} href="/reactions" color="text-yellow-400" />
+          </div>
+        );
+      })()}
     </div>
   );
 }
