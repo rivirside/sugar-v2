@@ -1,5 +1,7 @@
 """Validate that reactions satisfy mass balance (substrate and product carbon counts match)."""
 
+import re
+
 
 def check_mass_balance(reactions: list[dict], compound_map: dict) -> list[str]:
     """Check that each reaction's substrates and products have matching carbon counts.
@@ -59,3 +61,68 @@ def check_mass_balance(reactions: list[dict], compound_map: dict) -> list[str]:
             )
 
     return errors
+
+
+def _parse_formula(formula: str) -> dict[str, int]:
+    """Parse a molecular formula like 'C6H12O6' into {'C': 6, 'H': 12, 'O': 6}."""
+    atoms: dict[str, int] = {}
+    for match in re.finditer(r'([A-Z][a-z]?)(\d*)', formula):
+        element = match.group(1)
+        count = int(match.group(2)) if match.group(2) else 1
+        if element:
+            atoms[element] = atoms.get(element, 0) + count
+    return atoms
+
+
+def check_formula_balance(reactions: list[dict], compound_map: dict) -> list[str]:
+    """Check formula-level balance for imported reactions. Returns warnings list."""
+    warnings = []
+    for rxn in reactions:
+        rxn_id = rxn.get("id", "UNKNOWN")
+        sub_atoms: dict[str, int] = {}
+        prod_atoms: dict[str, int] = {}
+        skip = False
+
+        for sid in rxn.get("substrates", []):
+            compound = compound_map.get(sid)
+            if not compound:
+                warnings.append(f"Reaction {rxn_id}: substrate '{sid}' not in compound map")
+                skip = True
+                continue
+            formula = compound.get("formula")
+            if not formula:
+                warnings.append(f"Reaction {rxn_id}: substrate '{sid}' has missing formula (None)")
+                skip = True
+                continue
+            for elem, count in _parse_formula(formula).items():
+                sub_atoms[elem] = sub_atoms.get(elem, 0) + count
+
+        for pid in rxn.get("products", []):
+            compound = compound_map.get(pid)
+            if not compound:
+                warnings.append(f"Reaction {rxn_id}: product '{pid}' not in compound map")
+                skip = True
+                continue
+            formula = compound.get("formula")
+            if not formula:
+                warnings.append(f"Reaction {rxn_id}: product '{pid}' has missing formula (None)")
+                skip = True
+                continue
+            for elem, count in _parse_formula(formula).items():
+                prod_atoms[elem] = prod_atoms.get(elem, 0) + count
+
+        if skip:
+            continue
+
+        all_elements = set(sub_atoms.keys()) | set(prod_atoms.keys())
+        imbalanced = []
+        for elem in sorted(all_elements):
+            sub_count = sub_atoms.get(elem, 0)
+            prod_count = prod_atoms.get(elem, 0)
+            if sub_count != prod_count:
+                imbalanced.append(f"{elem}: {sub_count} vs {prod_count}")
+
+        if imbalanced:
+            warnings.append(f"Reaction {rxn_id}: formula imbalance [{', '.join(imbalanced)}]")
+
+    return warnings
