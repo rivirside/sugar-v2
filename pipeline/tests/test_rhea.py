@@ -10,16 +10,17 @@ SAMPLE_SPARQL_RESULT = {
             {
                 "rheaId": {"value": "10001"},
                 "equation": {"value": "D-glucose = D-fructose"},
-                "ec": {"value": "5.3.1.9"},
-                "substrateId": {"value": "http://purl.obolibrary.org/obo/CHEBI_17634"},
-                "productId": {"value": "http://purl.obolibrary.org/obo/CHEBI_48095"},
+                "ec": {"value": "http://purl.uniprot.org/enzyme/5.3.1.9"},
+                "leftChebi": {"value": "http://purl.obolibrary.org/obo/CHEBI_17634"},
+                "rightChebi": {"value": "http://purl.obolibrary.org/obo/CHEBI_48095"},
+                "citation": {"value": "http://rdf.ncbi.nlm.nih.gov/pubmed/12345678"},
             },
             {
                 "rheaId": {"value": "10002"},
                 "equation": {"value": "D-glucose + NAD+ = D-gluconate + NADH"},
-                "ec": {"value": "1.1.1.47"},
-                "substrateId": {"value": "http://purl.obolibrary.org/obo/CHEBI_17634"},
-                "productId": {"value": "http://purl.obolibrary.org/obo/CHEBI_18391"},
+                "ec": {"value": "http://purl.uniprot.org/enzyme/1.1.1.47"},
+                "leftChebi": {"value": "http://purl.obolibrary.org/obo/CHEBI_17634"},
+                "rightChebi": {"value": "http://purl.obolibrary.org/obo/CHEBI_18391"},
             },
         ]
     }
@@ -33,6 +34,7 @@ def test_parse_sparql_results():
     assert "CHEBI:17634" in r1["substrate_chebi_ids"]
     assert "CHEBI:48095" in r1["product_chebi_ids"]
     assert r1["ec_number"] == "5.3.1.9"
+    assert "12345678" in r1["pmids"]
 
 
 def test_classify_participants():

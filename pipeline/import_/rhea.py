@@ -44,23 +44,20 @@ def _query_rhea_batch(chebi_ids: list[str]) -> dict:
     values = " ".join(f"<http://purl.obolibrary.org/obo/{cid.replace(':', '_')}>" for cid in chebi_ids)
     query = f"""
     PREFIX rh: <http://rdf.rhea-db.org/>
-    SELECT DISTINCT ?rheaId ?equation ?ec ?substrateId ?productId ?direction
+    SELECT DISTINCT ?rheaId ?equation ?ec ?leftChebi ?rightChebi ?citation
     WHERE {{
         VALUES ?chebi {{ {values} }}
-        ?rhea rh:equation ?equation .
+        ?rhea rh:side/rh:contains/rh:compound/rh:chebi ?chebi .
         ?rhea rh:id ?rheaId .
+        ?rhea rh:equation ?equation .
         OPTIONAL {{ ?rhea rh:ec ?ec . }}
-        ?rhea rh:side ?subSide .
-        ?subSide rh:contains ?subPart .
-        ?subPart rh:compound ?subCompound .
-        ?subCompound rh:chebi ?substrateId .
-        ?rhea rh:side ?prodSide .
-        FILTER(?subSide != ?prodSide)
-        ?prodSide rh:contains ?prodPart .
-        ?prodPart rh:compound ?prodCompound .
-        ?prodCompound rh:chebi ?productId .
-        FILTER(?subCompound = ?chebi || ?prodCompound = ?chebi)
-        OPTIONAL {{ ?rhea rh:direction ?direction . }}
+        OPTIONAL {{ ?rhea rh:citation ?citation . }}
+        ?rhea rh:side ?leftSide .
+        FILTER(STRENDS(STR(?leftSide), "_L"))
+        ?leftSide rh:contains/rh:compound/rh:chebi ?leftChebi .
+        ?rhea rh:side ?rightSide .
+        FILTER(STRENDS(STR(?rightSide), "_R"))
+        ?rightSide rh:contains/rh:compound/rh:chebi ?rightChebi .
     }}
     """
     sparql = SPARQLWrapper(RHEA_SPARQL_ENDPOINT)
@@ -73,22 +70,37 @@ def parse_sparql_results(results: dict) -> list[dict]:
     reactions_map: dict[str, dict] = {}
     for binding in results.get("results", {}).get("bindings", []):
         rhea_id = f"RHEA:{binding['rheaId']['value']}"
-        ec = binding.get("ec", {}).get("value")
+        ec_uri = binding.get("ec", {}).get("value", "")
+        # Extract EC number from URI like http://purl.uniprot.org/enzyme/3.2.1.108
+        ec = ec_uri.split("/")[-1] if ec_uri else None
         equation = binding.get("equation", {}).get("value", "")
-        sub_chebi = _uri_to_chebi(binding.get("substrateId", {}).get("value", ""))
-        prod_chebi = _uri_to_chebi(binding.get("productId", {}).get("value", ""))
+        left_chebi = _uri_to_chebi(binding.get("leftChebi", {}).get("value", ""))
+        right_chebi = _uri_to_chebi(binding.get("rightChebi", {}).get("value", ""))
+        citation_uri = binding.get("citation", {}).get("value", "")
+        # Extract PMID from URI like http://rdf.ncbi.nlm.nih.gov/pubmed/6814489
+        pmid = citation_uri.split("/")[-1] if "pubmed" in citation_uri else None
 
         if rhea_id not in reactions_map:
-            reactions_map[rhea_id] = {"rhea_id": rhea_id, "ec_number": ec, "equation": equation, "substrate_chebi_ids": set(), "product_chebi_ids": set(), "pmids": []}
-        if sub_chebi:
-            reactions_map[rhea_id]["substrate_chebi_ids"].add(sub_chebi)
-        if prod_chebi:
-            reactions_map[rhea_id]["product_chebi_ids"].add(prod_chebi)
+            reactions_map[rhea_id] = {
+                "rhea_id": rhea_id,
+                "ec_number": ec,
+                "equation": equation,
+                "substrate_chebi_ids": set(),
+                "product_chebi_ids": set(),
+                "pmids": set(),
+            }
+        if left_chebi:
+            reactions_map[rhea_id]["substrate_chebi_ids"].add(left_chebi)
+        if right_chebi:
+            reactions_map[rhea_id]["product_chebi_ids"].add(right_chebi)
+        if pmid:
+            reactions_map[rhea_id]["pmids"].add(pmid)
 
     reactions = []
     for r in reactions_map.values():
         r["substrate_chebi_ids"] = sorted(r["substrate_chebi_ids"])
         r["product_chebi_ids"] = sorted(r["product_chebi_ids"])
+        r["pmids"] = sorted(r["pmids"])
         reactions.append(r)
     return reactions
 

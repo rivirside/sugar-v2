@@ -17,8 +17,10 @@ from pipeline.import_.cache import read_cache, write_cache, is_cache_fresh, writ
 
 logger = logging.getLogger(__name__)
 
-CHEBI_FTP_COMPOUNDS = "https://ftp.ebi.ac.uk/pub/databases/chebi/Flat_file_tab_delimited/compounds.tsv.gz"
-CHEBI_FTP_NAMES = "https://ftp.ebi.ac.uk/pub/databases/chebi/Flat_file_tab_delimited/names.tsv.gz"
+CHEBI_FTP_COMPOUNDS = "https://ftp.ebi.ac.uk/pub/databases/chebi/flat_files/compounds.tsv.gz"
+CHEBI_FTP_NAMES = "https://ftp.ebi.ac.uk/pub/databases/chebi/flat_files/names.tsv.gz"
+CHEBI_FTP_ACCESSIONS = "https://ftp.ebi.ac.uk/pub/databases/chebi/flat_files/database_accession.tsv.gz"
+CHEBI_FTP_STRUCTURES = "https://ftp.ebi.ac.uk/pub/databases/chebi/flat_files/structures.tsv.gz"
 CHEBI_REST_BASE = "https://www.ebi.ac.uk/webservices/chebi/2.0"
 
 
@@ -34,10 +36,16 @@ def fetch_chebi_bulk(cache_dir: str, refresh: bool = False) -> dict:
         compounds_data = _download_tsv_gz(CHEBI_FTP_COMPOUNDS)
         logger.info("Downloading ChEBI names TSV...")
         names_data = _download_tsv_gz(CHEBI_FTP_NAMES)
+        logger.info("Downloading ChEBI accessions TSV...")
+        accessions_data = _download_tsv_gz(CHEBI_FTP_ACCESSIONS)
+        logger.info("Downloading ChEBI structures TSV...")
+        structures_data = _download_tsv_gz(CHEBI_FTP_STRUCTURES)
 
         compounds = parse_chebi_compounds_tsv(compounds_data)
         names = parse_chebi_names_tsv(names_data)
-        index = build_chebi_index(compounds, names)
+        xrefs = parse_chebi_accessions_tsv(accessions_data)
+        structures = parse_chebi_structures_tsv(structures_data)
+        index = build_chebi_index(compounds, names, xrefs, structures)
 
         write_cache(cache_dir, "chebi", "index.json", index)
         logger.info("Built ChEBI index with %d entries", len(index))
@@ -67,10 +75,11 @@ def parse_chebi_compounds_tsv(tsv_content: str) -> dict:
     entries = {}
     reader = csv.DictReader(io.StringIO(tsv_content), delimiter="\t")
     for row in reader:
-        if row.get("STATUS", "") != "C":
+        status = row.get("STATUS") or row.get("status_id", "")
+        if status not in ("C", "1"):
             continue
-        chebi_num_id = row.get("ID", "").strip()
-        name = row.get("NAME", "").strip()
+        chebi_num_id = (row.get("ID") or row.get("id", "")).strip()
+        name = (row.get("NAME") or row.get("name", "")).strip()
         if chebi_num_id and name:
             entries[chebi_num_id] = {"name": name, "chebi_id": f"CHEBI:{chebi_num_id}"}
     return entries
@@ -81,26 +90,69 @@ def parse_chebi_names_tsv(tsv_content: str) -> dict:
     names: dict[str, list[str]] = {}
     reader = csv.DictReader(io.StringIO(tsv_content), delimiter="\t")
     for row in reader:
-        compound_id = row.get("COMPOUND_ID", "").strip()
-        name = row.get("NAME", "").strip()
+        compound_id = (row.get("COMPOUND_ID") or row.get("compound_id", "")).strip()
+        name = (row.get("NAME") or row.get("name", "")).strip()
         if compound_id and name:
             names.setdefault(compound_id, []).append(name)
     return names
 
 
-def build_chebi_index(compounds: dict, names: dict) -> dict:
+def parse_chebi_accessions_tsv(tsv_content: str) -> dict:
+    """Parse ChEBI database_accession.tsv. Returns {chebi_numeric_id: {"kegg_id": str, "pubchem_id": str}}."""
+    xrefs: dict[str, dict] = {}
+    reader = csv.DictReader(io.StringIO(tsv_content), delimiter="\t")
+    for row in reader:
+        compound_id = (row.get("COMPOUND_ID") or row.get("compound_id", "")).strip()
+        accession = (row.get("ACCESSION_NUMBER") or row.get("accession_number", "")).strip()
+        if not compound_id or not accession:
+            continue
+        if compound_id not in xrefs:
+            xrefs[compound_id] = {"kegg_id": None, "pubchem_id": None}
+        # KEGG compound IDs: C followed by 5 digits
+        if accession.startswith("C") and len(accession) == 6 and accession[1:].isdigit():
+            xrefs[compound_id]["kegg_id"] = accession
+        # PubChem CIDs are numeric
+        elif accession.isdigit() and len(accession) >= 3:
+            xrefs[compound_id]["pubchem_id"] = accession
+    return xrefs
+
+
+def parse_chebi_structures_tsv(tsv_content: str) -> dict:
+    """Parse ChEBI structures.tsv. Returns {chebi_numeric_id: {"smiles": str, "inchi": str}}."""
+    structs: dict[str, dict] = {}
+    reader = csv.DictReader(io.StringIO(tsv_content), delimiter="\t")
+    for row in reader:
+        compound_id = (row.get("COMPOUND_ID") or row.get("compound_id", "")).strip()
+        smiles = (row.get("SMILES") or row.get("smiles", "")).strip()
+        inchi = (row.get("STANDARD_INCHI") or row.get("standard_inchi", "")).strip()
+        if not compound_id:
+            continue
+        if compound_id not in structs:
+            structs[compound_id] = {"smiles": None, "inchi": None}
+        if smiles:
+            structs[compound_id]["smiles"] = smiles
+        if inchi:
+            structs[compound_id]["inchi"] = inchi
+    return structs
+
+
+def build_chebi_index(compounds: dict, names: dict, xrefs: dict = None, structures: dict = None) -> dict:
     """Build lookup index keyed by lowercase name/synonym -> ChEBI entry."""
+    xrefs = xrefs or {}
+    structures = structures or {}
     index = {}
     for chebi_num_id, compound_info in compounds.items():
+        xref = xrefs.get(chebi_num_id, {})
+        struct = structures.get(chebi_num_id, {})
         entry = {
             "chebi_id": compound_info["chebi_id"],
             "name": compound_info["name"],
             "synonyms": names.get(chebi_num_id, []),
             "formula": None,
-            "inchi": None,
-            "smiles": None,
-            "kegg_id": None,
-            "pubchem_id": None,
+            "inchi": struct.get("inchi"),
+            "smiles": struct.get("smiles"),
+            "kegg_id": xref.get("kegg_id"),
+            "pubchem_id": xref.get("pubchem_id"),
         }
         index[compound_info["name"].lower()] = entry
         for synonym in entry["synonyms"]:

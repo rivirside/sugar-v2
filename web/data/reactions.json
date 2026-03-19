@@ -3938,11 +3938,35 @@
     "products": [
       "D-XLU"
     ],
-    "evidence_tier": "hypothetical",
-    "evidence_criteria": [],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:51544"
+      },
+      {
+        "source": "ec",
+        "ec_number": "5.1.3.31"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "19205890",
+          "23470755",
+          "30279320"
+        ]
+      }
+    ],
     "yield": null,
     "cofactor_burden": 0.0,
-    "cost_score": 0.94
+    "cost_score": 0.2,
+    "rhea_id": "RHEA:51544",
+    "ec_number": "5.1.3.31",
+    "pmid": [
+      "19205890",
+      "23470755",
+      "30279320"
+    ]
   },
   {
     "id": "EPI-C5-D-XLU-D-RBU",
@@ -3983,11 +4007,35 @@
     "products": [
       "L-XLU"
     ],
-    "evidence_tier": "hypothetical",
-    "evidence_criteria": [],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:53268"
+      },
+      {
+        "source": "ec",
+        "ec_number": "5.1.3.31"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "23470755",
+          "28258150",
+          "30279320"
+        ]
+      }
+    ],
     "yield": null,
     "cofactor_burden": 0.0,
-    "cost_score": 0.94
+    "cost_score": 0.2,
+    "rhea_id": "RHEA:53268",
+    "ec_number": "5.1.3.31",
+    "pmid": [
+      "23470755",
+      "28258150",
+      "30279320"
+    ]
   },
   {
     "id": "EPI-C5-D-XLU-L-RBU",
@@ -4298,11 +4346,55 @@
     "products": [
       "D-FRU"
     ],
-    "evidence_tier": "hypothetical",
-    "evidence_criteria": [],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:42360"
+      },
+      {
+        "source": "ec",
+        "ec_number": "5.1.3.30"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "16461638",
+          "17936787",
+          "19205890",
+          "21663329",
+          "22426981",
+          "22760176",
+          "23470755",
+          "23644747",
+          "23646168",
+          "23660703",
+          "25655925",
+          "27713017",
+          "30279320"
+        ]
+      }
+    ],
     "yield": null,
     "cofactor_burden": 0.0,
-    "cost_score": 0.94
+    "cost_score": 0.2,
+    "rhea_id": "RHEA:42360",
+    "ec_number": "5.1.3.30",
+    "pmid": [
+      "16461638",
+      "17936787",
+      "19205890",
+      "21663329",
+      "22426981",
+      "22760176",
+      "23470755",
+      "23644747",
+      "23646168",
+      "23660703",
+      "25655925",
+      "27713017",
+      "30279320"
+    ]
   },
   {
     "id": "EPI-C6-D-FRU-D-PSI",
@@ -7238,11 +7330,27 @@
     "products": [
       "D-ERLU"
     ],
-    "evidence_tier": "hypothetical",
-    "evidence_criteria": [],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:53180"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "28258150"
+        ]
+      }
+    ],
     "yield": null,
     "cofactor_burden": 0.0,
-    "cost_score": 0.94
+    "cost_score": 0.2,
+    "rhea_id": "RHEA:53180",
+    "ec_number": null,
+    "pmid": [
+      "28258150"
+    ]
   },
   {
     "id": "ISO-C4-D-ERY-D-ERLU-REV",
@@ -7298,11 +7406,27 @@
     "products": [
       "D-ERLU"
     ],
-    "evidence_tier": "hypothetical",
-    "evidence_criteria": [],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:53280"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "28258150"
+        ]
+      }
+    ],
     "yield": null,
     "cofactor_burden": 0.0,
-    "cost_score": 0.94
+    "cost_score": 0.2,
+    "rhea_id": "RHEA:53280",
+    "ec_number": null,
+    "pmid": [
+      "28258150"
+    ]
   },
   {
     "id": "ISO-C4-D-THR-D-ERLU-REV",
@@ -7538,11 +7662,33 @@
     "products": [
       "D-XLU"
     ],
-    "evidence_tier": "hypothetical",
-    "evidence_criteria": [],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:14201"
+      },
+      {
+        "source": "ec",
+        "ec_number": "5.3.1.15"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "14304839",
+          "17189362"
+        ]
+      }
+    ],
     "yield": null,
     "cofactor_burden": 0.0,
-    "cost_score": 0.94
+    "cost_score": 0.2,
+    "rhea_id": "RHEA:14201",
+    "ec_number": "5.3.1.15",
+    "pmid": [
+      "14304839",
+      "17189362"
+    ]
   },
   {
     "id": "ISO-C5-D-LYX-D-XLU-REV",
@@ -9053,11 +9199,27 @@
     "products": [
       "GLYCEROL"
     ],
-    "evidence_tier": "hypothetical",
-    "evidence_criteria": [],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:30027"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "20729354"
+        ]
+      }
+    ],
     "yield": null,
     "cofactor_burden": 1.0,
-    "cost_score": 1.44
+    "cost_score": 0.7,
+    "rhea_id": "RHEA:30027",
+    "ec_number": null,
+    "pmid": [
+      "20729354"
+    ]
   },
   {
     "id": "RED-C3-L-GLYC-GLYCEROL",
@@ -10438,5 +10600,2078 @@
     "yield": null,
     "cofactor_burden": 1.0,
     "cost_score": 1.44
+  },
+  {
+    "id": "RHEA:78327",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-ERLU"
+    ],
+    "products": [
+      "GLYCOLALDEHYDE"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:78327"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "13719876"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "13719876"
+    ],
+    "rhea_id": "RHEA:78327",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:23592",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "GLYCEROL"
+    ],
+    "products": [
+      "D-GLYC"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:23592"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.372"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "12732097",
+          "16930134",
+          "19579248",
+          "22820017"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.372",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "12732097",
+      "16930134",
+      "19579248",
+      "22820017"
+    ],
+    "rhea_id": "RHEA:23592",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:38111",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "GLYCEROL"
+    ],
+    "products": [
+      "L-GLYC"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:38111"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.372"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "12732097",
+          "16930134",
+          "22820017"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.372",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "12732097",
+      "16930134",
+      "22820017"
+    ],
+    "rhea_id": "RHEA:38111",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:59928",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-ERYTHRITOL"
+    ],
+    "products": [
+      "D-ERY"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:59928"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "31511322",
+          "4402695"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "31511322",
+      "4402695"
+    ],
+    "rhea_id": "RHEA:59928",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:29903",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-RIB"
+    ],
+    "products": [
+      "D-RIB"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:29903"
+      },
+      {
+        "source": "ec",
+        "ec_number": "7.5.2.7"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "25533465",
+          "3011793"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "7.5.2.7",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "25533465",
+      "3011793"
+    ],
+    "rhea_id": "RHEA:29903",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:28951",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-ARA"
+    ],
+    "products": [
+      "L-ARA"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:28951"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "6282256"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "6282256"
+    ],
+    "rhea_id": "RHEA:28951",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:28947",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-ARA"
+    ],
+    "products": [
+      "L-ARA"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:28947"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "10094697",
+          "22952739"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "10094697",
+      "22952739"
+    ],
+    "rhea_id": "RHEA:28947",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:30007",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-ARA"
+    ],
+    "products": [
+      "L-ARA"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:30007"
+      },
+      {
+        "source": "ec",
+        "ec_number": "7.5.2.13"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "2445996",
+          "2656640"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "7.5.2.13",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "2445996",
+      "2656640"
+    ],
+    "rhea_id": "RHEA:30007",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:15029",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "D-MANNITOL"
+    ],
+    "products": [
+      "D-MAN"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:15029"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.255"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "1416989",
+          "7630943",
+          "7638158"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.255",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "1416989",
+      "7630943",
+      "7638158"
+    ],
+    "rhea_id": "RHEA:15029",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:18513",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "D-MANNITOL"
+    ],
+    "products": [
+      "D-MAN"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:18513"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.3.40"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "29529078",
+          "3519307"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.3.40",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "29529078",
+      "3519307"
+    ],
+    "rhea_id": "RHEA:18513",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:69560",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-MAN"
+    ],
+    "products": [
+      "D-MAN"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:69560"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "26893494",
+          "30679446"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "26893494",
+      "30679446"
+    ],
+    "rhea_id": "RHEA:69560",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:72907",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-MAN"
+    ],
+    "products": [
+      "D-MAN"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:72907"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "22212718",
+          "23451068",
+          "24573086"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "22212718",
+      "23451068",
+      "24573086"
+    ],
+    "rhea_id": "RHEA:72907",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:75475",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-MAN"
+    ],
+    "products": [
+      "D-MAN"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:75475"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "15607332"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "15607332"
+    ],
+    "rhea_id": "RHEA:75475",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:78391",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-MAN"
+    ],
+    "products": [
+      "D-MAN"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:78391"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "19617561",
+          "31996846"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "19617561",
+      "31996846"
+    ],
+    "rhea_id": "RHEA:78391",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:29799",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-ALL"
+    ],
+    "products": [
+      "L-ALL"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:29799"
+      },
+      {
+        "source": "ec",
+        "ec_number": "7.5.2.8"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "9401019"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "7.5.2.8",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "9401019"
+    ],
+    "rhea_id": "RHEA:29799",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:12753",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "GLYCEROL"
+    ],
+    "products": [
+      "DHA"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:12753"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.156"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "10818358",
+          "11306085",
+          "16930134",
+          "17140678",
+          "23770562",
+          "4146296"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.156",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "10818358",
+      "11306085",
+      "16930134",
+      "17140678",
+      "23770562",
+      "4146296"
+    ],
+    "rhea_id": "RHEA:12753",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:13769",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "GLYCEROL"
+    ],
+    "products": [
+      "DHA"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:13769"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.6"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "11566129"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.6",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "11566129"
+    ],
+    "rhea_id": "RHEA:13769",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:17493",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "GLYCEROL"
+    ],
+    "products": [
+      "DHA"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:17493"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.99.22"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "12686146"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.99.22",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "12686146"
+    ],
+    "rhea_id": "RHEA:17493",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:48756",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-ERYTHRITOL"
+    ],
+    "products": [
+      "D-ERLU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:48756"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "26560079"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "26560079"
+    ],
+    "rhea_id": "RHEA:48756",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:11868",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "D-ARABITOL"
+    ],
+    "products": [
+      "D-RBU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:11868"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.287"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "15796718"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.287",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "15796718"
+    ],
+    "rhea_id": "RHEA:11868",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:17389",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "D-ARABITOL"
+    ],
+    "products": [
+      "D-RBU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:17389"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.250"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "14736891",
+          "8250887",
+          "8407803"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.250",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "14736891",
+      "8250887",
+      "8407803"
+    ],
+    "rhea_id": "RHEA:17389",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:20053",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "D-RIBITOL"
+    ],
+    "products": [
+      "D-RBU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:20053"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.56"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "13786517",
+          "22344653",
+          "25837508"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.56",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "13786517",
+      "22344653",
+      "25837508"
+    ],
+    "rhea_id": "RHEA:20053",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:17025",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "XYLITOL"
+    ],
+    "products": [
+      "L-XLU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:17025"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.10"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "11882650",
+          "12604240",
+          "21477590"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.10",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "11882650",
+      "12604240",
+      "21477590"
+    ],
+    "rhea_id": "RHEA:17025",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:68100",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "XYLITOL"
+    ],
+    "products": [
+      "L-XLU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:68100"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.15"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "13373783",
+          "14736891"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.15",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "13373783",
+      "14736891"
+    ],
+    "rhea_id": "RHEA:68100",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:17921",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "D-ARABITOL"
+    ],
+    "products": [
+      "D-XLU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:17921"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.11"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "13762204",
+          "13786517",
+          "350825",
+          "4366026",
+          "9461423"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.11",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "13762204",
+      "13786517",
+      "350825",
+      "4366026",
+      "9461423"
+    ],
+    "rhea_id": "RHEA:17921",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:20433",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "XYLITOL"
+    ],
+    "products": [
+      "D-XLU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:20433"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.9"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "17216457"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.9",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "17216457"
+    ],
+    "rhea_id": "RHEA:20433",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:21276",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "D-ARABITOL"
+    ],
+    "products": [
+      "D-XLU"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:21276"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.287"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "15796718"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.287",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "15796718"
+    ],
+    "rhea_id": "RHEA:21276",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:20685",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "GALACTITOL"
+    ],
+    "products": [
+      "L-TAG"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:20685"
+      },
+      {
+        "source": "ec",
+        "ec_number": "1.1.1.16"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "13373783",
+          "26472925"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.16",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "13373783",
+      "26472925"
+    ],
+    "rhea_id": "RHEA:20685",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:29675",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "GLYCEROL"
+    ],
+    "products": [
+      "GLYCEROL"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:29675"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "10564231",
+          "12832087",
+          "9733774"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "10564231",
+      "12832087",
+      "9733774"
+    ],
+    "rhea_id": "RHEA:29675",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "RHEA:33143",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "GALACTITOL"
+    ],
+    "products": [
+      "GALACTITOL"
+    ],
+    "evidence_tier": "predicted",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:33143"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": "RHEA:33143",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.42999999999999994
+  },
+  {
+    "id": "RHEA:81355",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-MANNITOL"
+    ],
+    "products": [
+      "D-MANNITOL"
+    ],
+    "evidence_tier": "validated",
+    "evidence_criteria": [
+      {
+        "source": "rhea",
+        "rhea_id": "RHEA:81355"
+      },
+      {
+        "source": "pmid",
+        "ids": [
+          "10564231",
+          "9733774"
+        ]
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [
+      "10564231",
+      "9733774"
+    ],
+    "rhea_id": "RHEA:81355",
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "rhea_import"
+    },
+    "cost_score": 0.2
+  },
+  {
+    "id": "INFER-RHEA:51544-L",
+    "reaction_type": "epimerization",
+    "substrates": [
+      "L-RBU"
+    ],
+    "products": [
+      "L-XLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:51544"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "5.1.3.31",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:51544"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:53268-L",
+    "reaction_type": "epimerization",
+    "substrates": [
+      "D-RBU"
+    ],
+    "products": [
+      "D-XLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:53268"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "5.1.3.31",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:53268"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:42360-L",
+    "reaction_type": "epimerization",
+    "substrates": [
+      "L-PSI"
+    ],
+    "products": [
+      "L-FRU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:42360"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "5.1.3.30",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:42360"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:53180-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-ERY"
+    ],
+    "products": [
+      "L-ERLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:53180"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:53180"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:53280-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-THR"
+    ],
+    "products": [
+      "L-ERLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:53280"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:53280"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:14201-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-LYX"
+    ],
+    "products": [
+      "L-XLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:14201"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "5.3.1.15",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:14201"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:59928-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "POLYOL-C4-SS"
+    ],
+    "products": [
+      "L-ERY"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:59928"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:59928"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:29903-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-RIB"
+    ],
+    "products": [
+      "L-RIB"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:29903"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "7.5.2.7",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:29903"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:28951-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-ARA"
+    ],
+    "products": [
+      "D-ARA"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:28951"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:28951"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:28947-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-ARA"
+    ],
+    "products": [
+      "D-ARA"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:28947"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:28947"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:30007-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-ARA"
+    ],
+    "products": [
+      "D-ARA"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:30007"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "7.5.2.13",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:30007"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:69560-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-MAN"
+    ],
+    "products": [
+      "L-MAN"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:69560"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:69560"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:72907-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-MAN"
+    ],
+    "products": [
+      "L-MAN"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:72907"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:72907"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:75475-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-MAN"
+    ],
+    "products": [
+      "L-MAN"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:75475"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:75475"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:78391-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "L-MAN"
+    ],
+    "products": [
+      "L-MAN"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:78391"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:78391"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:29799-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "D-ALL"
+    ],
+    "products": [
+      "D-ALL"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:29799"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "7.5.2.8",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:29799"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:48756-L",
+    "reaction_type": "isomerization",
+    "substrates": [
+      "POLYOL-C4-SS"
+    ],
+    "products": [
+      "L-ERLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:48756"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": null,
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:48756"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:20053-L",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "POLYOL-C5-SSS"
+    ],
+    "products": [
+      "L-RBU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:20053"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.56",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:20053"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:17025-L",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "POLYOL-C5-SRS"
+    ],
+    "products": [
+      "D-XLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:17025"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.10",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:17025"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:68100-L",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "POLYOL-C5-SRS"
+    ],
+    "products": [
+      "D-XLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:68100"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.15",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:68100"
+    },
+    "cost_score": 0.69
+  },
+  {
+    "id": "INFER-RHEA:20433-L",
+    "reaction_type": "oxidation",
+    "substrates": [
+      "POLYOL-C5-SRS"
+    ],
+    "products": [
+      "L-XLU"
+    ],
+    "evidence_tier": "inferred",
+    "evidence_criteria": [
+      {
+        "source": "d_to_l_mirror",
+        "source_reaction": "RHEA:20433"
+      }
+    ],
+    "yield": null,
+    "cofactor_burden": 0.0,
+    "ec_number": "1.1.1.9",
+    "enzyme_name": null,
+    "cofactors": [],
+    "pmid": [],
+    "rhea_id": null,
+    "organism": [],
+    "km_mm": null,
+    "kcat_sec": null,
+    "delta_g": null,
+    "metadata": {
+      "source": "d_to_l_inference",
+      "source_reaction": "RHEA:20433"
+    },
+    "cost_score": 0.69
   }
 ]
