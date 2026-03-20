@@ -2,7 +2,7 @@
 
 ## Overview
 
-Add phosphorylated sugar derivatives to the SUGAR pipeline. Phosphosugars are the first Ring 3 derivative class, extending the existing 135 compounds and 748 reactions with ~144 new compounds and ~900 new reactions.
+Add phosphorylated sugar derivatives to the SUGAR pipeline. Phosphosugars are the first Ring 3 derivative class, extending the existing 135 compounds and 748 reactions with ~144 new compounds and ~1,240 new reactions.
 
 ## Scope
 
