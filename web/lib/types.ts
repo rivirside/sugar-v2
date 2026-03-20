@@ -36,7 +36,7 @@ export interface Compound {
   chirality: Chirality;
   formula: string;
   stereocenters: string[];
-  modifications: Record<string, unknown> | null;
+  modifications: Array<{ type: string; position: number }> | null;
   parent_monosaccharide: string | null;
   commercial: boolean;
   cost_usd_per_kg: number | null;
