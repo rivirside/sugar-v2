@@ -8,6 +8,14 @@ from datetime import datetime, timezone
 
 from pipeline.enumerate.monosaccharides import enumerate_all_monosaccharides
 from pipeline.enumerate.polyols import generate_polyols
+from pipeline.enumerate.phosphosugars import generate_phosphosugars
+from pipeline.reactions.phosphorylation import (
+    generate_phosphorylations,
+    generate_dephosphorylations,
+    generate_mutases,
+    generate_phospho_epimerizations,
+    generate_phospho_isomerizations,
+)
 from pipeline.reactions.generate import (
     generate_epimerizations,
     generate_isomerizations,
@@ -26,7 +34,7 @@ def _abort(message: str) -> None:
 
 
 def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> dict:
-    """Execute the full SUGAR v2 Ring 1 pipeline.
+    """Execute the full SUGAR v2 pipeline.
 
     Args:
         skip_import: If True, skip Ring 2 database import steps.
@@ -36,35 +44,40 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     Steps:
     1. Enumerate monosaccharides (94 compounds, C2-C7)
     2. Generate polyols with degeneracy detection
-    3. Combine all compounds
-    4. Validate: completeness and duplicates
-    5. Generate reactions: epimerizations, isomerizations, reductions
-    6. Mass balance check (ABORT on failure)
-    7. Verify reaction ID uniqueness (ABORT on duplicates)
-    8. Write output JSON files
+    3. Generate phosphosugars (systematic + curated)
+    4. Combine all compounds
+    5. Validate: completeness and duplicates
+    6. Generate reactions (epi, iso, red, phos, dephos, mutase, phospho-epi, phospho-iso)
+    7. Mass balance check (ABORT on failure)
+    8. Verify reaction ID uniqueness (ABORT on duplicates)
 
     Returns a summary dict with counts and file paths.
     """
-    print("=== SUGAR v2 Ring 1 Pipeline ===")
+    print("=== SUGAR v2 Pipeline ===")
 
     # Step 1: Enumerate monosaccharides
-    print("\n[1/7] Enumerating monosaccharides...")
+    print("\n[1/8] Enumerating monosaccharides...")
     monosaccharides = enumerate_all_monosaccharides()
     print(f"  -> {len(monosaccharides)} monosaccharides (aldoses + ketoses, C2-C7)")
 
     # Step 2: Generate polyols
-    print("\n[2/7] Generating polyols...")
+    print("\n[2/8] Generating polyols...")
     polyols = generate_polyols(monosaccharides)
     print(f"  -> {len(polyols)} polyols (with degeneracy detection)")
 
-    # Step 3: Combine all compounds
-    print("\n[3/7] Combining compound sets...")
-    all_compounds = monosaccharides + polyols
+    # Step 3: Generate phosphosugars
+    print("\n[3/8] Generating phosphosugars...")
+    phosphosugars = generate_phosphosugars(monosaccharides)
+    print(f"  -> {len(phosphosugars)} phosphosugars")
+
+    # Step 4: Combine all compounds
+    print("\n[4/8] Combining compound sets...")
+    all_compounds = monosaccharides + polyols + phosphosugars
     print(f"  -> {len(all_compounds)} total compounds")
 
-    # Step 4: Validate
-    print("\n[4/7] Validating compound set...")
-    completeness_warnings = check_completeness(monosaccharides)
+    # Step 5: Validate
+    print("\n[5/8] Validating compound set...")
+    completeness_warnings = check_completeness(all_compounds)
     if completeness_warnings:
         for w in completeness_warnings:
             print(f"  [WARNING] {w}")
@@ -78,19 +91,33 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     else:
         print("  -> Duplicate check passed")
 
-    # Step 5: Generate reactions
-    print("\n[5/7] Generating reactions...")
+    # Step 6: Generate reactions
+    print("\n[6/8] Generating reactions...")
     epimerizations = generate_epimerizations(all_compounds)
     isomerizations = generate_isomerizations(all_compounds)
     reductions = generate_reductions(all_compounds, polyols)
-    all_reactions = epimerizations + isomerizations + reductions
+    phosphorylations = generate_phosphorylations(phosphosugars)
+    dephosphorylations = generate_dephosphorylations(phosphosugars)
+    mutases = generate_mutases(phosphosugars)
+    phospho_epimerizations = generate_phospho_epimerizations(phosphosugars)
+    phospho_isomerizations = generate_phospho_isomerizations(phosphosugars)
+    all_reactions = (
+        epimerizations + isomerizations + reductions +
+        phosphorylations + dephosphorylations + mutases +
+        phospho_epimerizations + phospho_isomerizations
+    )
     print(f"  -> {len(epimerizations)} epimerizations")
     print(f"  -> {len(isomerizations)} isomerizations")
     print(f"  -> {len(reductions)} reductions")
+    print(f"  -> {len(phosphorylations)} phosphorylations")
+    print(f"  -> {len(dephosphorylations)} dephosphorylations")
+    print(f"  -> {len(mutases)} mutases")
+    print(f"  -> {len(phospho_epimerizations)} phospho-epimerizations")
+    print(f"  -> {len(phospho_isomerizations)} phospho-isomerizations")
     print(f"  -> {len(all_reactions)} total reactions")
 
-    # Step 6: Mass balance check (ABORT on failure)
-    print("\n[6/7] Checking mass balance...")
+    # Step 7: Mass balance check (ABORT on failure)
+    print("\n[7/8] Checking mass balance...")
     compound_map = {c["id"]: c for c in all_compounds}
     mass_errors = check_mass_balance(all_reactions, compound_map)
     if mass_errors:
@@ -99,8 +126,8 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
         _abort(f"Mass balance check failed with {len(mass_errors)} error(s)")
     print("  -> Mass balance check passed")
 
-    # Step 7: Verify reaction ID uniqueness (ABORT on duplicates)
-    print("\n[7/7] Verifying reaction ID uniqueness...")
+    # Step 8: Verify reaction ID uniqueness (ABORT on duplicates)
+    print("\n[8/8] Verifying reaction ID uniqueness...")
     reaction_ids = [r["id"] for r in all_reactions]
     seen_ids: set[str] = set()
     duplicate_ids = []
@@ -267,10 +294,16 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
         "counts": {
             "monosaccharides": len(monosaccharides),
             "polyols": len(polyols),
+            "phosphosugars": len(phosphosugars),
             "total_compounds": len(all_compounds),
             "epimerizations": len(epimerizations),
             "isomerizations": len(isomerizations),
             "reductions": len(reductions),
+            "phosphorylations": len(phosphorylations),
+            "dephosphorylations": len(dephosphorylations),
+            "mutases": len(mutases),
+            "phospho_epimerizations": len(phospho_epimerizations),
+            "phospho_isomerizations": len(phospho_isomerizations),
             "total_reactions": len(all_reactions),
         },
         "import_stats": import_stats,
