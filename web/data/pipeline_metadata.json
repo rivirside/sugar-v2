@@ -1,6 +1,6 @@
 {
   "pipeline_version": "2.0.0",
-  "generated_at": "2026-03-24T03:19:18.632598+00:00",
+  "generated_at": "2026-03-24T05:31:16.375274+00:00",
   "counts": {
     "monosaccharides": 94,
     "polyols": 41,
@@ -14,18 +14,23 @@
     "mutases": 288,
     "phospho_epimerizations": 506,
     "phospho_isomerizations": 162,
-    "total_reactions": 1940
+    "total_reactions": 1992
   },
   "gap_analysis": {
-    "reactions_analyzed": 1940,
-    "coverage_direct": 0,
-    "coverage_cross_substrate": 0,
+    "reactions_analyzed": 1992,
+    "coverage_direct": 35,
+    "coverage_cross_substrate": 1431,
     "coverage_family_only": 0,
-    "coverage_none": 1940,
-    "avg_engineerability_score": 1.0,
-    "ec_families_indexed": 0
+    "coverage_none": 526,
+    "avg_engineerability_score": 0.6393,
+    "ec_families_indexed": 21
   },
-  "import_stats": null,
+  "import_stats": {
+    "chebi_matched": 237,
+    "rhea_reactions": 31,
+    "enriched_reactions": 10,
+    "inferred_reactions": 21
+  },
   "completeness_warnings": [],
   "duplicate_warnings": 0,
   "output_files": {
