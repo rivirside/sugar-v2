@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pipeline.enumerate.monosaccharides import enumerate_all_monosaccharides
 from pipeline.enumerate.polyols import generate_polyols
 from pipeline.enumerate.phosphosugars import generate_phosphosugars
+from pipeline.enumerate.deoxy_sugars import generate_deoxy_sugars
 from pipeline.reactions.phosphorylation import (
     generate_phosphorylations,
     generate_dephosphorylations,
@@ -21,6 +22,7 @@ from pipeline.reactions.generate import (
     generate_isomerizations,
     generate_reductions,
 )
+from pipeline.reactions.deoxy_reactions import generate_deoxy_epimerizations
 from pipeline.validate.completeness import check_completeness
 from pipeline.validate.duplicates import check_duplicates
 from pipeline.validate.mass_balance import check_mass_balance
@@ -73,9 +75,14 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     phosphosugars = generate_phosphosugars(monosaccharides)
     print(f"  -> {len(phosphosugars)} phosphosugars")
 
+    # Step 3b: Generate deoxy sugars
+    print("\n[3b/8] Generating deoxy sugars...")
+    deoxy_sugars = generate_deoxy_sugars(monosaccharides)
+    print(f"  -> {len(deoxy_sugars)} deoxy sugars")
+
     # Step 4: Combine all compounds
     print("\n[4/8] Combining compound sets...")
-    all_compounds = monosaccharides + polyols + phosphosugars
+    all_compounds = monosaccharides + polyols + phosphosugars + deoxy_sugars
     print(f"  -> {len(all_compounds)} total compounds")
 
     # Step 5: Validate
@@ -104,10 +111,12 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     mutases = generate_mutases(phosphosugars)
     phospho_epimerizations = generate_phospho_epimerizations(phosphosugars)
     phospho_isomerizations = generate_phospho_isomerizations(phosphosugars)
+    deoxy_epimerizations = generate_deoxy_epimerizations(deoxy_sugars)
     all_reactions = (
         epimerizations + isomerizations + reductions +
         phosphorylations + dephosphorylations + mutases +
-        phospho_epimerizations + phospho_isomerizations
+        phospho_epimerizations + phospho_isomerizations +
+        deoxy_epimerizations
     )
     print(f"  -> {len(epimerizations)} epimerizations")
     print(f"  -> {len(isomerizations)} isomerizations")
@@ -117,6 +126,7 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     print(f"  -> {len(mutases)} mutases")
     print(f"  -> {len(phospho_epimerizations)} phospho-epimerizations")
     print(f"  -> {len(phospho_isomerizations)} phospho-isomerizations")
+    print(f"  -> {len(deoxy_epimerizations)} deoxy-epimerizations")
     print(f"  -> {len(all_reactions)} total reactions")
 
     # Step 7: Mass balance check (ABORT on failure)
@@ -335,6 +345,7 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
             "monosaccharides": len(monosaccharides),
             "polyols": len(polyols),
             "phosphosugars": len(phosphosugars),
+            "deoxy_sugars": len(deoxy_sugars),
             "total_compounds": len(all_compounds),
             "epimerizations": len(epimerizations),
             "isomerizations": len(isomerizations),
@@ -344,6 +355,7 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
             "mutases": len(mutases),
             "phospho_epimerizations": len(phospho_epimerizations),
             "phospho_isomerizations": len(phospho_isomerizations),
+            "deoxy_epimerizations": len(deoxy_epimerizations),
             "total_reactions": len(all_reactions),
         },
         "gap_analysis": gap_metadata,

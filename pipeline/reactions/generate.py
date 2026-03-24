@@ -38,10 +38,10 @@ def generate_epimerizations(compounds: list[dict]) -> list[dict]:
     """
     reactions = []
 
-    # Group compounds by (type, carbons) — skip phosphosugars (handled by phosphorylation.py)
+    # Group compounds by (type, carbons) — skip derivatives (handled by own modules)
     groups: dict[tuple, list] = {}
     for c in compounds:
-        if c["type"] == "phosphate":
+        if c["type"] in ("phosphate", "deoxy_sugar"):
             continue
         key = (c["type"], c["carbons"])
         groups.setdefault(key, []).append(c)

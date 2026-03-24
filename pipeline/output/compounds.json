@@ -9444,5 +9444,303 @@
     "pubchem_id": "15436010",
     "inchi": "InChI=1S/C6H14O12P2/c7-2-6(18-20(13,14)15)5(9)4(8)3(17-6)1-16-19(10,11)12/h3-5,7-9H,1-2H2,(H2,10,11,12)(H2,13,14,15)/t3-,4-,5+,6+/m1/s1",
     "smiles": "O=P(O)(O)OC[C@H]1O[C@@](CO)(OP(=O)(O)O)[C@@H](O)[C@@H]1O"
+  },
+  {
+    "id": "L-FUC",
+    "name": "L-Fucose",
+    "aliases": [
+      "6-deoxy-L-galactose",
+      "<small>L</small>-fucopyranose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 6,
+    "chirality": "L",
+    "formula": "C6H12O5",
+    "stereocenters": [
+      "S",
+      "R",
+      "S",
+      "S"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 6
+      }
+    ],
+    "parent_monosaccharide": "L-GAL",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        6
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:2181",
+    "kegg_id": "C01019",
+    "pubchem_id": "863814",
+    "inchi": "InChI=1S/C6H12O5/c1-2-3(7)4(8)5(9)6(10)11-2/h2-10H,1H3/t2-,3+,4+,5-,6?/m0/s1",
+    "smiles": "C[C@@H]1OC(O)[C@@H](O)[C@H](O)[C@@H]1O"
+  },
+  {
+    "id": "L-RHA",
+    "name": "L-Rhamnose",
+    "aliases": [
+      "6-deoxy-L-mannose",
+      "<small>L</small>-rhamnopyranose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 6,
+    "chirality": "L",
+    "formula": "C6H12O5",
+    "stereocenters": [
+      "R",
+      "R",
+      "R",
+      "S"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 6
+      }
+    ],
+    "parent_monosaccharide": "L-MAN",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        6
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:62346",
+    "kegg_id": "C00507",
+    "pubchem_id": "24391831",
+    "inchi": "InChI=1S/C6H12O5/c1-2-3(7)4(8)5(9)6(10)11-2/h2-10H,1H3/t2-,3-,4+,5+,6?/m0/s1",
+    "smiles": "C[C@@H]1OC(O)[C@H](O)[C@H](O)[C@H]1O"
+  },
+  {
+    "id": "D-dRIB",
+    "name": "2-Deoxy-D-ribose",
+    "aliases": [
+      "deoxyribose",
+      "2-deoxy-<small>D</small>-ribose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 5,
+    "chirality": "D",
+    "formula": "C5H10O4",
+    "stereocenters": [
+      "R",
+      "R"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 2
+      }
+    ],
+    "parent_monosaccharide": "D-RIB",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        2
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:28816",
+    "kegg_id": "C01801",
+    "pubchem_id": "1721978",
+    "inchi": "InChI=1S/C5H10O4/c6-2-1-4(8)5(9)3-7/h2,4-5,7-9H,1,3H2/t4-,5+/m0/s1",
+    "smiles": "O=CC[C@H](O)[C@H](O)CO"
+  },
+  {
+    "id": "D-2dGLC",
+    "name": "2-Deoxy-D-glucose",
+    "aliases": [
+      "2-deoxy-<small>D</small>-glucose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 6,
+    "chirality": "D",
+    "formula": "C6H12O5",
+    "stereocenters": [
+      "S",
+      "S",
+      "R"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 2
+      }
+    ],
+    "parent_monosaccharide": "D-GLC",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        2
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:15866",
+    "kegg_id": "C00586",
+    "pubchem_id": "17908557",
+    "inchi": null,
+    "smiles": null
+  },
+  {
+    "id": "D-FUC",
+    "name": "D-Fucose",
+    "aliases": [
+      "6-deoxy-D-galactose",
+      "<small>D</small>-fucopyranose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 6,
+    "chirality": "D",
+    "formula": "C6H12O5",
+    "stereocenters": [
+      "R",
+      "S",
+      "R",
+      "R"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 6
+      }
+    ],
+    "parent_monosaccharide": "D-GAL",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        6
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:2179",
+    "kegg_id": "C01018",
+    "pubchem_id": "1905881",
+    "inchi": "InChI=1S/C6H12O5/c1-2-3(7)4(8)5(9)6(10)11-2/h2-10H,1H3/t2-,3+,4+,5-,6?/m1/s1",
+    "smiles": "C[C@H]1OC(O)[C@H](O)[C@@H](O)[C@H]1O"
+  },
+  {
+    "id": "D-RHA",
+    "name": "D-Rhamnose",
+    "aliases": [
+      "6-deoxy-D-mannose",
+      "\u03b1-<small>D</small>-rhamnose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 6,
+    "chirality": "D",
+    "formula": "C6H12O5",
+    "stereocenters": [
+      "S",
+      "S",
+      "S",
+      "R"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 6
+      }
+    ],
+    "parent_monosaccharide": "D-MAN",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        6
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:63152",
+    "kegg_id": "C01684",
+    "pubchem_id": "1722743",
+    "inchi": "InChI=1S/C6H12O5/c1-2-3(7)4(8)5(9)6(10)11-2/h2-10H,1H3/t2-,3-,4+,5+,6+/m1/s1",
+    "smiles": "C[C@H]1O[C@H](O)[C@@H](O)[C@@H](O)[C@@H]1O"
+  },
+  {
+    "id": "L-2dGLC",
+    "name": "2-Deoxy-L-glucose",
+    "aliases": [
+      "2-deoxy-<small>D</small>-glucose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 6,
+    "chirality": "L",
+    "formula": "C6H12O5",
+    "stereocenters": [
+      "R",
+      "R",
+      "S"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 2
+      }
+    ],
+    "parent_monosaccharide": "L-GLC",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        2
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:15866",
+    "kegg_id": "C00586",
+    "pubchem_id": "17908557",
+    "inchi": null,
+    "smiles": null
+  },
+  {
+    "id": "D-QUI",
+    "name": "D-Quinovose",
+    "aliases": [
+      "6-deoxy-D-glucose",
+      "\u03b1-<small>D</small>-quinovopyranose"
+    ],
+    "type": "deoxy_sugar",
+    "carbons": 6,
+    "chirality": "D",
+    "formula": "C6H12O5",
+    "stereocenters": [
+      "R",
+      "S",
+      "S",
+      "R"
+    ],
+    "modifications": [
+      {
+        "type": "deoxy",
+        "position": 6
+      }
+    ],
+    "parent_monosaccharide": "D-GLC",
+    "commercial": false,
+    "cost_usd_per_kg": null,
+    "metadata": {
+      "deoxy_positions": [
+        6
+      ],
+      "parent_type": "aldose"
+    },
+    "chebi_id": "CHEBI:42606",
+    "kegg_id": "C08352",
+    "pubchem_id": null,
+    "inchi": "InChI=1S/C6H12O5/c1-2-3(7)4(8)5(9)6(10)11-2/h2-10H,1H3/t2-,3-,4+,5-,6+/m1/s1",
+    "smiles": "C[C@H]1O[C@H](O)[C@H](O)[C@@H](O)[C@@H]1O"
   }
 ]

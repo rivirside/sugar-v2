@@ -1,11 +1,12 @@
 {
   "pipeline_version": "2.0.0",
-  "generated_at": "2026-03-24T07:54:44.391623+00:00",
+  "generated_at": "2026-03-24T08:00:23.474956+00:00",
   "counts": {
     "monosaccharides": 94,
     "polyols": 41,
     "phosphosugars": 144,
-    "total_compounds": 279,
+    "deoxy_sugars": 8,
+    "total_compounds": 287,
     "epimerizations": 478,
     "isomerizations": 124,
     "reductions": 94,
@@ -14,19 +15,20 @@
     "mutases": 288,
     "phospho_epimerizations": 506,
     "phospho_isomerizations": 162,
-    "total_reactions": 1992
+    "deoxy_epimerizations": 4,
+    "total_reactions": 1996
   },
   "gap_analysis": {
-    "reactions_analyzed": 1992,
+    "reactions_analyzed": 1996,
     "coverage_direct": 35,
-    "coverage_cross_substrate": 1431,
+    "coverage_cross_substrate": 1435,
     "coverage_family_only": 0,
     "coverage_none": 526,
-    "avg_engineerability_score": 0.5574,
+    "avg_engineerability_score": 0.5571,
     "ec_families_indexed": 21
   },
   "import_stats": {
-    "chebi_matched": 237,
+    "chebi_matched": 245,
     "rhea_reactions": 31,
     "enriched_reactions": 10,
     "inferred_reactions": 21
