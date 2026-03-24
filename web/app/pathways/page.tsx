@@ -6,11 +6,12 @@ import { CompoundSearch } from "@/components/compound-search";
 import { PathwayList } from "@/components/pathway-list";
 import { PathwayDetail } from "@/components/pathway-detail";
 import { EvidenceFilter } from "@/components/evidence-filter";
+import { ScoringModeToggle } from "@/components/scoring-mode-toggle";
 import { reactions, compoundMap, reactionMap } from "@/lib/data";
 import { buildGraph } from "@/lib/graph";
 import { findKShortestPaths, type PathResult } from "@/lib/pathfinding";
 import { useEvidenceFilter } from "@/lib/evidence-filter";
-import type { Compound } from "@/lib/types";
+import type { Compound, ScoringMode } from "@/lib/types";
 import { ArrowRight, Loader2 } from "lucide-react";
 
 function PathwayFinderContent() {
@@ -33,8 +34,12 @@ function PathwayFinderContent() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+  const [scoringMode, setScoringMode] = useState<ScoringMode>("cost");
 
-  const graph = useMemo(() => buildGraph(reactions), []);
+  const graph = useMemo(
+    () => buildGraph(reactions, scoringMode),
+    [scoringMode]
+  );
 
   const runSearch = useCallback(
     (src: string, tgt: string) => {
@@ -61,7 +66,7 @@ function PathwayFinderContent() {
         setLoading(false);
       }, 0);
     },
-    [graph, maxSteps, activeTiers]
+    [graph, maxSteps, activeTiers, scoringMode]
   );
 
   // Run search when URL params change
@@ -131,6 +136,7 @@ function PathwayFinderContent() {
           </div>
 
           <EvidenceFilter />
+          <ScoringModeToggle value={scoringMode} onChange={setScoringMode} />
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { EvidenceBadge } from "@/components/evidence-badge";
+import { CoverageDot } from "@/components/coverage-badge";
 import { compoundMap } from "@/lib/data";
 import { formatYield, cumulativeYield } from "@/lib/utils";
 import type { PathResult } from "@/lib/pathfinding";
@@ -42,6 +43,17 @@ export function PathwayList({
             : worst;
         }, "validated");
 
+        // Coverage summary counts
+        const coverageCounts = { direct: 0, cross_substrate: 0, family_only: 0, none: 0 };
+        for (const r of reactions) {
+          coverageCounts[r.enzyme_coverage ?? "none"]++;
+        }
+
+        // Avg engineerability
+        const avgEng =
+          reactions.reduce((s, r) => s + (r.engineerability_score ?? 1), 0) /
+          reactions.length;
+
         // Build condensed chain
         const chain = pathway.nodes
           .map((id) => compoundMap.get(id)?.name ?? id)
@@ -69,11 +81,40 @@ export function PathwayList({
               <EvidenceBadge
                 tier={worstTier as "validated" | "predicted" | "inferred" | "hypothetical"}
               />
+
+              {/* Coverage dots: one per step */}
+              <span className="flex items-center gap-0.5">
+                {reactions.map((r, i) => (
+                  <CoverageDot key={i} coverage={r.enzyme_coverage} />
+                ))}
+              </span>
+
               <span className="ml-auto text-xs text-zinc-500">
                 yield: {formatYield(cumYield)}
               </span>
             </div>
+
             <p className="mt-2 truncate text-xs text-zinc-300">{chain}</p>
+
+            {/* Bottom row: engineerability + coverage counts */}
+            <div className="mt-1.5 flex items-center gap-3 text-xs text-zinc-600">
+              <span>eng: {avgEng.toFixed(2)}</span>
+              {coverageCounts.direct > 0 && (
+                <span className="text-green-400/60">
+                  {coverageCounts.direct} known
+                </span>
+              )}
+              {coverageCounts.cross_substrate > 0 && (
+                <span className="text-amber-400/60">
+                  {coverageCounts.cross_substrate} similar
+                </span>
+              )}
+              {coverageCounts.none > 0 && (
+                <span className="text-red-400/60">
+                  {coverageCounts.none} gap{coverageCounts.none > 1 ? "s" : ""}
+                </span>
+              )}
+            </div>
           </button>
         );
       })}
