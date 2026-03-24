@@ -24,6 +24,8 @@ from pipeline.reactions.generate import (
 from pipeline.validate.completeness import check_completeness
 from pipeline.validate.duplicates import check_duplicates
 from pipeline.validate.mass_balance import check_mass_balance
+from pipeline.analyze.gap_analysis import run_gap_analysis
+from pipeline.analyze.enzyme_index import build_enzyme_index
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 
@@ -272,6 +274,28 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
 
         print("\n=== Ring 2 complete ===")
 
+    # === Ring 4: Enzyme Gap Analysis ===
+    print("\n=== Ring 4: Enzyme Gap Analysis ===")
+
+    # Step G1: Build enzyme index
+    print("\n[G1] Building enzyme index...")
+    enzyme_index = build_enzyme_index(all_reactions)
+    print(f"  -> {len(enzyme_index)} EC families indexed")
+
+    # Step G2: Run gap analysis
+    print("\n[G2] Running gap analysis...")
+    all_reactions, gap_metadata = run_gap_analysis(
+        all_compounds, all_reactions, enzyme_index=enzyme_index
+    )
+    print(f"  -> {gap_metadata['reactions_analyzed']} reactions analyzed")
+    print(f"  -> {gap_metadata['coverage_direct']} direct enzyme matches")
+    print(f"  -> {gap_metadata['coverage_cross_substrate']} cross-substrate candidates")
+    print(f"  -> {gap_metadata['coverage_family_only']} EC family only")
+    print(f"  -> {gap_metadata['coverage_none']} no coverage")
+    print(f"  -> avg engineerability: {gap_metadata['avg_engineerability_score']:.4f}")
+
+    print("\n=== Ring 4 complete ===")
+
     # Write output files
     print("\n=== Writing output files ===")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -287,6 +311,12 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     with open(reactions_path, "w") as f:
         json.dump(all_reactions, f, indent=2)
     print(f"  -> {reactions_path}")
+
+    # Export enzyme index
+    enzyme_index_path = os.path.join(OUTPUT_DIR, "enzyme_index.json")
+    with open(enzyme_index_path, "w") as f:
+        json.dump(enzyme_index, f, indent=2)
+    print(f"  -> {enzyme_index_path}")
 
     metadata = {
         "pipeline_version": "2.0.0",
@@ -306,6 +336,7 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
             "phospho_isomerizations": len(phospho_isomerizations),
             "total_reactions": len(all_reactions),
         },
+        "gap_analysis": gap_metadata,
         "import_stats": import_stats,
         "completeness_warnings": completeness_warnings,
         "duplicate_warnings": len(duplicates),
@@ -326,6 +357,7 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
         shutil.copy2(compounds_path, os.path.join(web_data_dir, "compounds.json"))
         shutil.copy2(reactions_path, os.path.join(web_data_dir, "reactions.json"))
         shutil.copy2(metadata_path, os.path.join(web_data_dir, "pipeline_metadata.json"))
+        shutil.copy2(enzyme_index_path, os.path.join(web_data_dir, "enzyme_index.json"))
         print(f"  -> Copied to {web_data_dir}")
 
     print("\n=== Pipeline complete ===")

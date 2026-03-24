@@ -45,3 +45,21 @@ def compute_cost_score(reaction: dict) -> float:
         W3 * evidence_pen +
         W4
     )
+
+
+def compute_combined_score(
+    cost_score: float,
+    engineerability_score: float,
+    alpha: float = 0.5,
+) -> float:
+    """Compute combined cost + engineerability score.
+
+    Args:
+        cost_score: Biochemical cost score (0.0-1.6 range).
+        engineerability_score: Engineering feasibility (0.0-1.0 range).
+        alpha: Weight for cost_score. 1.0 = cost only, 0.0 = engineerability only.
+
+    Returns:
+        Weighted blend of both scores.
+    """
+    return alpha * cost_score + (1.0 - alpha) * engineerability_score
