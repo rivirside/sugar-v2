@@ -10,6 +10,7 @@ from pipeline.enumerate.monosaccharides import enumerate_all_monosaccharides
 from pipeline.enumerate.polyols import generate_polyols
 from pipeline.enumerate.phosphosugars import generate_phosphosugars
 from pipeline.enumerate.deoxy_sugars import generate_deoxy_sugars
+from pipeline.enumerate.amino_sugars import generate_amino_sugars
 from pipeline.reactions.phosphorylation import (
     generate_phosphorylations,
     generate_dephosphorylations,
@@ -23,6 +24,10 @@ from pipeline.reactions.generate import (
     generate_reductions,
 )
 from pipeline.reactions.deoxy_reactions import generate_deoxy_epimerizations
+from pipeline.reactions.amino_reactions import (
+    generate_amino_epimerizations,
+    generate_nacetylations,
+)
 from pipeline.validate.completeness import check_completeness
 from pipeline.validate.duplicates import check_duplicates
 from pipeline.validate.mass_balance import check_mass_balance
@@ -80,9 +85,14 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     deoxy_sugars = generate_deoxy_sugars(monosaccharides)
     print(f"  -> {len(deoxy_sugars)} deoxy sugars")
 
+    # Step 3c: Generate amino sugars
+    print("\n[3c/8] Generating amino sugars...")
+    amino_sugars = generate_amino_sugars(monosaccharides)
+    print(f"  -> {len(amino_sugars)} amino sugars")
+
     # Step 4: Combine all compounds
     print("\n[4/8] Combining compound sets...")
-    all_compounds = monosaccharides + polyols + phosphosugars + deoxy_sugars
+    all_compounds = monosaccharides + polyols + phosphosugars + deoxy_sugars + amino_sugars
     print(f"  -> {len(all_compounds)} total compounds")
 
     # Step 5: Validate
@@ -112,11 +122,14 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     phospho_epimerizations = generate_phospho_epimerizations(phosphosugars)
     phospho_isomerizations = generate_phospho_isomerizations(phosphosugars)
     deoxy_epimerizations = generate_deoxy_epimerizations(deoxy_sugars)
+    amino_epimerizations = generate_amino_epimerizations(amino_sugars)
+    nacetylations = generate_nacetylations(amino_sugars)
     all_reactions = (
         epimerizations + isomerizations + reductions +
         phosphorylations + dephosphorylations + mutases +
         phospho_epimerizations + phospho_isomerizations +
-        deoxy_epimerizations
+        deoxy_epimerizations +
+        amino_epimerizations + nacetylations
     )
     print(f"  -> {len(epimerizations)} epimerizations")
     print(f"  -> {len(isomerizations)} isomerizations")
@@ -127,6 +140,8 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
     print(f"  -> {len(phospho_epimerizations)} phospho-epimerizations")
     print(f"  -> {len(phospho_isomerizations)} phospho-isomerizations")
     print(f"  -> {len(deoxy_epimerizations)} deoxy-epimerizations")
+    print(f"  -> {len(amino_epimerizations)} amino-epimerizations")
+    print(f"  -> {len(nacetylations)} N-acetylations/deacetylations")
     print(f"  -> {len(all_reactions)} total reactions")
 
     # Step 7: Mass balance check (ABORT on failure)
@@ -346,6 +361,7 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
             "polyols": len(polyols),
             "phosphosugars": len(phosphosugars),
             "deoxy_sugars": len(deoxy_sugars),
+            "amino_sugars": len(amino_sugars),
             "total_compounds": len(all_compounds),
             "epimerizations": len(epimerizations),
             "isomerizations": len(isomerizations),
@@ -356,6 +372,8 @@ def run_pipeline(skip_import: bool = False, refresh: set[str] | None = None) -> 
             "phospho_epimerizations": len(phospho_epimerizations),
             "phospho_isomerizations": len(phospho_isomerizations),
             "deoxy_epimerizations": len(deoxy_epimerizations),
+            "amino_epimerizations": len(amino_epimerizations),
+            "nacetylations": len(nacetylations),
             "total_reactions": len(all_reactions),
         },
         "gap_analysis": gap_metadata,
