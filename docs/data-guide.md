@@ -36,7 +36,7 @@ Every compound in `compounds.json` has these fields:
 | `id` | string | Unique systematic identifier. Aldoses: `D-GLC`. Ketoses: `D-FRU`. Polyols: `D-SORBITOL`. Phosphosugars: `D-GLC-6P`. |
 | `name` | string | Human-readable name. Known sugars use their common name; unknown stereoisomers use systematic names like "D-aldohexose-RSRS". |
 | `aliases` | string[] | Alternative names (e.g., "Dextrose" for D-Glucose). Empty array if none. |
-| `type` | string | One of: `aldose`, `ketose`, `polyol`, `phosphate`. Future rings will add `acid`, `lactone`, `amino_sugar`, `nucleotide_sugar`, `deoxy_sugar`, `disaccharide`. |
+| `type` | string | One of: `aldose`, `ketose`, `polyol`, `phosphate`, `acid`, `lactone`, `amino_sugar`, `nucleotide_sugar`, `deoxy_sugar`. (`disaccharide` planned for a future ring.) |
 | `carbons` | number | Carbon chain length (2 through 7 for Ring 1 compounds). |
 | `chirality` | string | `"D"`, `"L"`, or `"achiral"`. Based on the configuration of the highest-numbered stereocenter. |
 | `formula` | string | Molecular formula in Hill notation (e.g., `"C6H12O6"`). |
@@ -86,7 +86,7 @@ Every reaction in `reactions.json` has these fields:
 | Field | Type | Description |
 |-------|------|-------------|
 | `id` | string | Descriptive ID encoding the reaction type and participants. |
-| `reaction_type` | string | One of: `epimerization`, `isomerization`, `reduction`, `phosphorylation`, `dephosphorylation`, `mutase`, `phospho_epimerization`, `phospho_isomerization`. |
+| `reaction_type` | string | One of: `epimerization`, `isomerization`, `reduction`, `phosphorylation`, `dephosphorylation`, `mutase`, `phospho_epimerization`, `phospho_isomerization`, `transamination`, `hydrolysis`, `oxidation`, `nucleotidyltransfer`, `lactonization`. |
 | `substrates` | string[] | Array of substrate compound IDs (currently always length 1). |
 | `products` | string[] | Array of product compound IDs (currently always length 1). |
 | `evidence_tier` | string | One of: `validated`, `predicted`, `inferred`, `hypothetical`. See "Evidence tiers" below. |
@@ -94,6 +94,7 @@ Every reaction in `reactions.json` has these fields:
 | `yield` | number or null | Expected reaction yield (0.0 to 1.0). Null means unknown. |
 | `cofactor_burden` | number | Metabolic cost of required cofactors. 0.0 for no cofactor, 1.0 for ATP or NADH. |
 | `cost_score` | number | Composite cost used for pathfinding. Lower is better. |
+| `engineerability` | object or null | Ring 4 gap analysis result. See "Engineerability field" below. Null until Ring 4 output is embedded. |
 
 ### Reaction ID format
 
@@ -109,6 +110,32 @@ Each reaction type uses a consistent ID pattern:
 | Mutase | `MUT-C{n}-{sugar}-{pos1}P-{pos2}P` | `MUT-C6-D-GLC-1P-6P` |
 | Phospho-epimerization | `EPI-C{n}-{substrate}-{product}` | `EPI-C6-D-GLC-6P-D-MAN-6P` |
 | Phospho-isomerization | `ISO-C{n}-{aldose-P}-{ketose-P}` | `ISO-C6-D-GLC-6P-D-FRU-6P` |
+
+### Engineerability field
+
+The `engineerability` field is added by Ring 4 gap analysis. It indicates how feasible it would be to find or engineer an enzyme for this reaction.
+
+```json
+{
+  "coverage_level": "cross_substrate",
+  "score": 0.72,
+  "top_candidates": [
+    {
+      "ec_number": "5.1.3.2",
+      "enzyme_name": "UDP-galactose 4-epimerase",
+      "similarity": 0.85,
+      "uniprot_ids": ["P09147"],
+      "pdb_count": 12
+    }
+  ]
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `coverage_level` | `direct` — known enzyme for this exact reaction; `cross_substrate` — known enzyme for same reaction type on similar substrate; `family_only` — EC family exists but no close substrate match; `none` — no characterized enzyme found |
+| `score` | Composite 0.0-1.0. Higher = more engineerable. Weights: coverage_level (0.4), best candidate similarity (0.3), EC family richness (0.15), structural data availability (0.15) |
+| `top_candidates` | Up to 5 candidate enzymes ranked by substrate similarity score |
 
 ### Cost scoring formula
 
@@ -243,8 +270,8 @@ SUGAR uses a three-tier naming system:
 **Not included (some planned for future rings):**
 - C2 phosphorylation (carbonyl position, not biologically relevant)
 - C5 phosphorylation of hexoses (C5 hydroxyl is typically involved in ring closure)
-- Sugar acids, lactones, amino sugars, nucleotide sugars, deoxy sugars (Ring 3)
-- Disaccharides and oligosaccharides (Ring 4)
+- Disaccharides and oligosaccharides (planned future ring)
+- Sialic acids and higher-carbon NDP-sugars (planned expansion)
 - Ring-form (pyranose/furanose) representations (SUGAR uses open-chain Fischer projection logic)
 - Enzyme specificity constraints (SUGAR generates all structurally valid reactions, not just known enzyme-catalyzed ones)
 - Thermodynamic favorability or kinetic rates (except what BRENDA provides in Ring 2)
@@ -258,13 +285,25 @@ SUGAR uses a three-tier naming system:
 | Ketoses | 31 | C3-C7, all stereoisomers |
 | Polyols | 41 | Reduction products, degeneracy-resolved |
 | Phosphosugars | 144 | 136 systematic + 8 curated |
-| **Total compounds** | **279** | |
-| Epimerizations | 478 | Bidirectional, same type and carbon count |
-| Isomerizations | 124 | Bidirectional, aldose to ketose |
-| Reductions | 94 | Irreversible, monosaccharide to polyol |
+| Deoxy sugars | 8 | L-Fucose, L-Rhamnose and C6 stereoisomers |
+| Amino sugars | 9 | D-GlcNAc, D-GalNAc, D-ManNAc, and free amino forms |
+| Sugar acids | 8 | C6 aldohexose oxidation products |
+| Lactones | 4 | Internal ester forms of C6 sugar acids |
+| NDP-sugars | 8 | UDP-Glc, GDP-Man, UDP-GlcNAc, and others |
+| **Total compounds** | **316** | |
+| Epimerizations (all types) | 1,023 | Monosaccharide, phospho, deoxy, amino, acid, NDP |
+| Isomerizations (all types) | 286 | Monosaccharide and phospho |
+| Reductions | 102 | Monosaccharide to polyol + deoxy sugar reductions |
 | Phosphorylations | 144 | One per phosphosugar |
 | Dephosphorylations | 144 | One per phosphosugar |
 | Mutases | 288 | Bidirectional, position migration |
-| Phospho-epimerizations | 506 | Bidirectional, same positions |
-| Phospho-isomerizations | 162 | Bidirectional, same positions |
-| **Total reactions** | **1,940** | |
+| Oxidations | 36 | Sugar acid formation and deoxy reverse reactions |
+| N-Acetylations | 6 | Amino sugar acylation |
+| Lactonizations | 4 | Sugar acid to lactone |
+| Nucleotidyltransfers | 8 | Sugar-1P to NDP-sugar activation |
+| Transaminations + hydrolysis | 30 | Bridge reactions (amino, deoxy, NDP cross-class) |
+| **Total reactions** | **2,096** | |
+| Direct enzyme coverage | 35 | Known enzyme for this exact reaction |
+| Cross-substrate coverage | 1,485 | Candidate enzyme for similar substrate |
+| No coverage | 576 | Novel reactions requiring de novo engineering |
+| Avg. engineerability score | 0.56 | Across all reactions |

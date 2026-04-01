@@ -16,17 +16,29 @@ There is no runtime server. The pipeline runs offline to produce static data, an
 The pipeline is organized into concentric rings. Each ring adds a layer of data without modifying the layers beneath it.
 
 ```
-Ring 4 (planned): disaccharides, advanced scoring
-Ring 3 (planned): acids, lactones, amino sugars, nucleotide sugars, deoxy sugars
-Ring 2: database enrichment (ChEBI, KEGG, RHEA, BRENDA)
-Ring 1: core compounds and reactions from first principles
+Ring 4 (complete): enzyme gap analysis, engineerability scoring, cross-substrate matching
+Ring 3 (complete): deoxy sugars, amino sugars, sugar acids, lactones, NDP-sugars, bridge reactions
+Ring 2 (complete): database enrichment (ChEBI, KEGG, RHEA, BRENDA)
+Ring 1 (complete): core compounds and reactions from first principles
 ```
 
 **Ring 1** is the foundation. It enumerates all possible stereoisomers of C2-C7 monosaccharides, generates their polyol reduction products and phosphorylated derivatives, then creates reactions between them using structural comparison rules. Every reaction starts with the "hypothetical" evidence tier because it is generated from theory, not observed in a database.
 
 **Ring 2** enriches Ring 1 data. It fetches external database records, matches them to Ring 1 compounds and reactions, and upgrades evidence tiers when matches are found. A compound matched in ChEBI gets a `chebi_id`. A reaction matched in RHEA gets upgraded from "hypothetical" to "validated." Ring 2 is optional and can be skipped with `--skip-import`.
 
-**Rings 3 and 4** are planned extensions. Ring 3 will add more sugar derivative classes. Ring 4 will add multi-sugar compounds and advanced scoring.
+**Ring 3** adds derivative compound classes and cross-class bridge reactions:
+- Deoxy sugars (8): L-Fucose, L-Rhamnose, and less common stereoisomers
+- Amino sugars (9): D-GlcNAc, D-GalNAc, D-ManNAc, and free amino forms
+- Sugar acids (8): D-Glucuronic acid, D-Galacturonic acid, and C6 oxidized forms
+- Sugar lactones (4): internal ester forms of the C6 sugar acids
+- NDP-sugars (8): UDP-Glucose, GDP-Mannose, UDP-GlcNAc, and others
+- Bridge reactions: transamination, nucleotidyltransfer, oxidation, and hydrolysis reactions that connect these islands to the main monosaccharide graph, enabling the pathfinder to route through them
+
+**Ring 4** adds enzyme gap analysis for protein engineering applications:
+- Multi-dimensional substrate similarity scoring across four axes: stereocenter distance, modification distance, carbon count distance, and compound type distance
+- Engineerability scores (0.0-1.0 composite) covering all 2,096 reactions
+- Cross-substrate enzyme candidate matching in three layers: same reaction type at same position (direct), same reaction type at different position (cross-substrate), and same EC subclass (family-level)
+- Enzyme index with 21 EC families, UniProt IDs, and PDB structural data availability counts
 
 ## Pipeline stages
 
@@ -59,9 +71,20 @@ Each phosphate ester adds H3PO4 minus H2O to the parent formula (net +1P, +3O, +
 
 Output: 144 phosphosugars.
 
-**Step 4: Combine and validate**
+**Step 4: Generate Ring 3 derivative classes**
 
-All compound sets are merged (94 + 41 + 144 = 279 compounds). The completeness validator checks that each expected stereoisomer group has the correct count. The duplicate validator checks for identical stereocenters within the same compound group.
+Six additional compound classes are enumerated, each in its own module:
+- `enumerate/deoxy_sugars.py` — 8 deoxy sugars derived from C6 monosaccharides
+- `enumerate/amino_sugars.py` — 9 amino sugars (free and N-acetyl forms)
+- `enumerate/sugar_acids.py` — 8 C6 sugar acids from aldohexose oxidation
+- `enumerate/lactones.py` — 4 sugar lactones from the sugar acids
+- `enumerate/ndp_sugars.py` — 8 NDP-sugars with curated nucleotide types
+
+Corresponding reaction modules generate inter-class reactions (deoxy_reactions.py, amino_reactions.py, acid_reactions.py, lactone_reactions.py, ndp_reactions.py) and `reactions/bridge_reactions.py` generates cross-class connections.
+
+**Step 5: Combine and validate**
+
+All compound sets are merged to 316 compounds. The completeness validator checks expected stereoisomer group counts. The duplicate validator checks for identical compound fingerprints.
 
 **Step 5: Generate reactions** (`reactions/generate.py`, `reactions/phosphorylation.py`)
 
@@ -80,9 +103,13 @@ Eight reaction types are generated:
 
 All reactions are bidirectional (A to B and B to A counted separately) except reductions, which are irreversible.
 
-**Step 6: Score and validate reactions** (`reactions/score.py`, `validate/mass_balance.py`)
+**Step 6: Generate reactions** (`reactions/generate.py`, `reactions/phosphorylation.py`, and Ring 3 modules)
 
 Each reaction gets a cost score: `W1*(1-yield) + W2*cofactor_burden + W3*evidence_penalty + W4`. Mass balance is checked (substrate carbons must equal product carbons). The pipeline aborts if any reaction fails mass balance.
+
+**Step 7: Score and validate reactions** (`reactions/score.py`, `validate/mass_balance.py`)
+
+Each reaction gets a cost score. Mass balance is checked. The pipeline aborts if any reaction fails mass balance.
 
 ### Ring 2 steps (optional)
 
@@ -90,13 +117,49 @@ Ring 2 runs 9 additional steps that fetch external data, match it to Ring 1 comp
 
 The matching engine (`import_/match.py`) uses five strategies in priority order: override pin, override reject, exact name, alias match, formula unique match, and fuzzy name match. Results are cached locally to avoid repeated API calls.
 
+### Ring 4 steps
+
+Ring 4 runs after Ring 2 enrichment and computes enzyme gap analysis for every reaction.
+
+**Step: Build enzyme index** (`analyze/enzyme_index.py`)
+
+Constructs an index of known EC families from validated and predicted reactions. For each EC family, records: family size (number of characterized enzymes), UniProt IDs of representative members, and PDB entry count (structural data availability). The index covers 21 EC families and is written to `pipeline/output/enzyme_index.json`.
+
+**Step: Score substrate similarity** (`analyze/similarity.py`)
+
+For each pair of reactions, computes a multi-dimensional substrate similarity score across four axes:
+- Stereocenter distance: fraction of differing stereocenter positions
+- Modification distance: difference in modification type and position
+- Carbon count distance: normalized difference in chain length
+- Type distance: penalty for different compound types
+
+**Step: Cross-substrate enzyme matching** (`analyze/cross_substrate.py`)
+
+For each reaction without direct enzyme coverage, searches three layers for candidate enzymes:
+1. Same reaction type, same substrate modification position (direct analog)
+2. Same reaction type, different position (positional variant)
+3. Same EC subclass (family-level structural homolog)
+
+**Step: Compute engineerability scores** (`analyze/engineerability.py`)
+
+For each reaction, combines four components into a composite score (0.0-1.0):
+- Coverage level (0.4 weight): direct > cross_substrate > family_only > none
+- Best candidate similarity (0.3 weight): highest similarity score among candidates
+- EC family richness (0.15 weight): log-normalized count of characterized enzymes in the family
+- Structural data availability (0.15 weight): whether PDB structures exist for candidates
+
+**Step: Gap analysis orchestration** (`analyze/gap_analysis.py`)
+
+Runs all Ring 4 analysis steps and annotates each reaction with its `engineerability` field before writing final output.
+
 ### Output
 
-The pipeline writes three files to `pipeline/output/`:
+The pipeline writes four files to `pipeline/output/`:
 
-- `compounds.json`: array of all compounds
-- `reactions.json`: array of all reactions
-- `pipeline_metadata.json`: generation timestamp, version, counts, warnings
+- `compounds.json`: array of all 316 compounds
+- `reactions.json`: array of all 2,096 reactions (with `engineerability` field from Ring 4)
+- `enzyme_index.json`: EC family index with 21 families
+- `pipeline_metadata.json`: generation timestamp, version, counts, warnings, gap analysis summary
 
 It then copies these files to `web/data/` so the frontend can import them at build time.
 
@@ -104,14 +167,25 @@ It then copies these files to `web/data/` so the frontend can import them at bui
 
 ```
 pipeline/
-  run_pipeline.py                 Main orchestrator, runs all steps
+  run_pipeline.py                 Main orchestrator, runs all steps in order
   enumerate/
     monosaccharides.py            Aldose/ketose stereoisomer generation
     polyols.py                    Polyol generation with degeneracy detection
     phosphosugars.py              Phosphosugar enumeration (systematic + curated)
+    deoxy_sugars.py               Deoxy sugar generation (Ring 3)
+    amino_sugars.py               Amino sugar generation, free + N-acetyl forms (Ring 3)
+    sugar_acids.py                C6 sugar acid generation (Ring 3)
+    lactones.py                   Sugar lactone generation (Ring 3)
+    ndp_sugars.py                 NDP-sugar generation (Ring 3)
   reactions/
     generate.py                   Epimerization, isomerization, reduction
     phosphorylation.py            Phospho reactions (phos, dephos, mutase, epi, iso)
+    deoxy_reactions.py            Deoxy sugar reactions (Ring 3)
+    amino_reactions.py            Amino sugar reactions, N-acetylation (Ring 3)
+    acid_reactions.py             Sugar acid reactions (Ring 3)
+    lactone_reactions.py          Lactonization reactions (Ring 3)
+    ndp_reactions.py              NDP-sugar reactions (Ring 3)
+    bridge_reactions.py           Cross-class bridge reactions (transamination, nucleotidyltransfer)
     score.py                      Cost scoring formula
   validate/
     completeness.py               Expected stereoisomer counts per group
@@ -126,12 +200,19 @@ pipeline/
     merge.py                      Enrichment field merger
     infer.py                      D-to-L reaction inference
     cache.py                      Local caching for API responses
+  analyze/                        Ring 4 enzyme gap analysis
+    similarity.py                 Multi-dimensional substrate similarity scoring
+    cross_substrate.py            Cross-substrate enzyme candidate matching
+    engineerability.py            Composite engineerability score computation
+    enzyme_index.py               EC family index builder (Tier 1+2 data)
+    gap_analysis.py               Gap analysis orchestrator
+    tier2_fetch.py                On-demand UniProt/PDB data fetcher
   data/
     name_mapping.json             Stereo-config to human-readable name mapping
     match_overrides.json          Manual match pins and rejects
   output/                         Generated JSON files
   cache/                          Cached API responses (gitignored)
-  tests/                          pytest test suite (116 tests)
+  tests/                          pytest test suite (251 tests)
 
 web/
   app/

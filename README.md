@@ -4,14 +4,15 @@ Systematic Utilization of Glycans for Alternate Routes: a computational platform
 
 ## What it does
 
-SUGAR enumerates all C2-C7 monosaccharide stereoisomers, their polyol reduction products, and phosphorylated derivatives, then generates rule-based enzymatic reactions between them. A web interface lets you find optimal multi-step synthesis pathways using Yen's K-shortest-paths algorithm.
+SUGAR systematically enumerates all C2-C7 monosaccharide stereoisomers and their derivative classes (polyols, phosphosugars, deoxy sugars, amino sugars, sugar acids, lactones, NDP-sugars), generates rule-based enzymatic reactions between them, and scores each reaction's engineering feasibility. A web interface lets you find optimal multi-step synthesis pathways using Yen's K-shortest-paths algorithm and identify which enzymatic steps require protein engineering.
 
 | Metric | Count |
 |--------|-------|
-| Compounds | 279 |
-| Reactions | 1,940 |
-| Reaction types | 8 |
-| Pipeline tests | 116 |
+| Compounds | 316 |
+| Reactions | 2,096 |
+| Compound types | 9 |
+| Reaction types | 13 |
+| Pipeline tests | 251 |
 | Frontend tests | 5 |
 
 ## Quick start
@@ -38,7 +39,7 @@ Opens at `http://localhost:3000`. The pathway finder, compound browser, reaction
 ### Run tests
 
 ```bash
-# Pipeline (116 tests)
+# Pipeline (251 tests)
 python -m pytest pipeline/tests/ -v
 
 # Frontend (5 tests)
@@ -49,13 +50,15 @@ cd web && npm test
 
 ```
 pipeline/                        Python data pipeline
-  enumerate/                     Compound generation (monosaccharides, polyols, phosphosugars)
-  reactions/                     Reaction generation and cost scoring
+  enumerate/                     Compound generation (monosaccharides, polyols, phosphosugars,
+                                 deoxy sugars, amino sugars, sugar acids, lactones, NDP-sugars)
+  reactions/                     Reaction generation and cost scoring (all reaction types)
   validate/                      Completeness, duplicate, and mass-balance checks
   import_/                       Ring 2 database enrichment (ChEBI, KEGG, RHEA, BRENDA)
+  analyze/                       Ring 4 gap analysis (similarity, engineerability, cross-substrate)
   data/                          Name mappings, match overrides
   output/                        Generated JSON output
-  tests/                         pytest suite
+  tests/                         pytest suite (251 tests)
 
 web/                             Next.js frontend
   app/                           Pages (dashboard, pathways, compounds, reactions, network, about)
@@ -73,24 +76,36 @@ SUGAR is built in concentric rings. Each ring adds a layer of data on top of the
 - 94 monosaccharides (63 aldoses + 31 ketoses, C2-C7)
 - 41 polyols (reduction products with degeneracy detection)
 - 144 phosphosugars (systematic C6 + curated biologically important compounds)
-- 8 reaction types: epimerization, isomerization, reduction, phosphorylation, dephosphorylation, mutase, phospho-epimerization, phospho-isomerization
+- Core reaction types: epimerization, isomerization, reduction, phosphorylation, dephosphorylation, mutase, phospho-epimerization, phospho-isomerization
 - All reactions start as "hypothetical" evidence tier
 
-**Ring 2 (implemented, optional)** enriches Ring 1 data with external databases:
+**Ring 2 (complete)** enriches Ring 1 data with external databases:
 
-- ChEBI bulk matching (name, alias, formula, fuzzy)
+- ChEBI bulk matching (name, alias, formula, fuzzy) — 273 compounds matched
 - KEGG compound cross-referencing
-- RHEA reaction matching (upgrades evidence tier to "validated" or "predicted")
-- BRENDA enzyme kinetics (EC numbers, enzyme names)
+- RHEA reaction matching (upgrades evidence tier to "validated" or "predicted") — 31 reactions confirmed
+- BRENDA enzyme kinetics (EC numbers, enzyme names, kinetic parameters)
 - D-to-L reaction inference from validated D-form reactions
 
 Run with database enrichment: `python -m pipeline.run_pipeline` (requires network access and BRENDA credentials in `.env`)
 
 Run without: `python -m pipeline.run_pipeline --skip-import`
 
-**Ring 3 (planned)** will add more derivative classes: acids, lactones, amino sugars, nucleotide sugars, deoxy sugars.
+**Ring 3 (complete)** adds derivative compound classes and cross-class reactions:
 
-**Ring 4 (planned)** will add disaccharides, hypothetical enzyme engineering targets, and advanced scoring models.
+- 8 deoxy sugars (L-Fucose, L-Rhamnose, and stereoisomers)
+- 9 amino sugars (D-GlcNAc, D-GalNAc, D-ManNAc, and others)
+- 8 sugar acids (D-Glucuronic acid, D-Galacturonic acid, and others)
+- 4 sugar lactones
+- 8 NDP-sugars (UDP-Glucose, GDP-Mannose, and others)
+- Bridge reactions connecting all compound types via transamination, nucleotidyltransfer, oxidation, and hydrolysis
+
+**Ring 4 (complete)** adds enzyme gap analysis for protein engineering:
+
+- Multi-dimensional substrate similarity scoring (stereocenter, modification, carbon count, type distances)
+- Engineerability scores (0.0-1.0 composite) for all 2,096 reactions
+- Cross-substrate enzyme candidate matching (3-layer: direct, same-type cross-position, EC family)
+- Enzyme index with 21 EC families, UniProt IDs, PDB structural data availability
 
 ## Documentation
 
@@ -99,7 +114,7 @@ Run without: `python -m pipeline.run_pipeline --skip-import`
 
 ## Pipeline version
 
-Current output was generated by pipeline v2.0.0 on 2026-03-20. The pipeline is deterministic: same code produces the same output.
+Current output was generated by pipeline v2.0.0 on 2026-03-26. The pipeline is deterministic: same code produces the same output.
 
 ## Author
 
